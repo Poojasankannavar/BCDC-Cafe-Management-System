@@ -1,0 +1,692 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>BCDC Café | Add Order</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: #f7f4ef;
+            color: #38261c;
+        }
+
+        .topbar {
+            background: #2b1b14;
+            padding: 17px 25px;
+            color: white;
+        }
+
+        .brand {
+            color: #f5c27a;
+            font-size: 23px;
+            font-weight: 800;
+            text-decoration: none;
+        }
+
+        .page-header {
+            background: linear-gradient(120deg, #382117, #80502f);
+            color: white;
+            padding: 30px 0;
+        }
+
+        .page-header h1 {
+            font-weight: 800;
+            font-size: 29px;
+        }
+
+        .page-header p {
+            color: #f3dfca;
+            margin-bottom: 0;
+        }
+
+        .order-card {
+            background: white;
+            border: 1px solid #eee4da;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px auto;
+            box-shadow: 0 8px 25px rgba(57, 36, 22, .07);
+        }
+
+        .form-label {
+            color: #503523;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .form-control, .form-select {
+            min-height: 43px;
+            border-color: #e5d8cb;
+            border-radius: 7px;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #d99039;
+            box-shadow: 0 0 0 3px rgba(217, 144, 57, .13);
+        }
+
+        .table-responsive {
+            margin-top: 20px;
+        }
+
+        #orderTable {
+            min-width: 1050px;
+            vertical-align: middle;
+        }
+
+        #orderTable thead th {
+            padding: 14px 10px;
+            background: #38251b;
+            color: white;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        #orderTable tbody td {
+            padding: 10px 7px;
+        }
+
+        #orderTable .form-control {
+            min-width: 90px;
+            font-size: 13px;
+        }
+
+        #orderTable .item-name {
+            min-width: 170px;
+        }
+
+        .total-panel {
+            background: #fff8ed;
+            border: 1px solid #f0dfc4;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 22px;
+        }
+
+        .total-line {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            font-size: 14px;
+        }
+
+        .grand-total {
+            border-top: 1px solid #e8d4b8;
+            margin-top: 8px;
+            padding-top: 13px;
+            color: #16804a;
+            font-size: 23px;
+            font-weight: 800;
+        }
+
+        .btn-cafe {
+            background: #d99039;
+            color: white;
+            border: none;
+            font-weight: 700;
+            border-radius: 7px;
+            padding: 11px 19px;
+        }
+
+        .btn-cafe:hover {
+            background: #bd7625;
+            color: white;
+        }
+
+        .btn-save {
+            background: #198754;
+            color: white;
+            border: none;
+            font-weight: 700;
+            border-radius: 7px;
+            padding: 11px 22px;
+        }
+
+        .btn-save:hover {
+            background: #146c43;
+            color: white;
+        }
+
+        .btn-remove {
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 11px;
+        }
+
+        .help-text {
+            font-size: 12px;
+            color: #817164;
+        }
+
+        @media (max-width: 576px) {
+            .order-card {
+                padding: 15px;
+            }
+
+            .page-header h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="topbar">
+    <div class="container d-flex justify-content-between align-items-center">
+        <a class="brand" href="{{ home_url }}">☕ BCDC Café</a>
+        <a class="btn btn-outline-light btn-sm"
+           href="{{ home_url }}">Back to Tables</a>
+    </div>
+</header>
+
+<section class="page-header">
+    <div class="container">
+        <h1>🍽️ Create Your Order</h1>
+        <p>Select your food items, enter quantities, and generate your bill.</p>
+    </div>
+</section>
+
+<main class="container">
+
+    <div class="order-card">
+
+        <div class="d-flex justify-content-between flex-wrap gap-2 mb-4">
+            <div>
+                <h4 class="fw-bold mb-1">Order Details</h4>
+                <p class="help-text mb-0">
+                    Add one or more items to this bill.
+                </p>
+            </div>
+            <span class="badge text-bg-warning align-self-start">
+                Café Billing
+            </span>
+        </div>
+
+        <form id="billForm">
+            {% csrf_token %}
+
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label for="table_name" class="form-label">
+                        Table Name
+                    </label>
+                    <input type="text" id="table_name" name="table_name"
+                           value="{{ Table_name }}" maxlength="100"
+                           class="form-control" required>
+                </div>
+
+                <div class="col-md-4">
+                    <label for="bill_no" class="form-label">
+                        Bill Number
+                    </label>
+                    <input type="text" id="bill_no" name="bill_no"
+                           value="{{ Bill_no }}" maxlength="10"
+                           class="form-control" required>
+                    <small class="help-text">
+                        Enter a unique bill number.
+                    </small>
+                </div>
+
+                <div class="col-md-4">
+                    <label for="bill_date" class="form-label">
+                        Bill Date
+                    </label>
+                    <input type="date" id="bill_date" name="bill_date"
+                           value="{{ today }}" class="form-control" required>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center
+                        flex-wrap gap-2 mt-4">
+                <h5 class="fw-bold mb-0">Food Items</h5>
+                <button type="button" id="addRowButton" class="btn btn-cafe">
+                    + Add Item
+                </button>
+            </div>
+
+            <p class="help-text mt-2">
+                Search by food name or enter an item code.
+                Enter the applicable GST percentage for each item.
+            </p>
+
+            <div class="table-responsive">
+                <table class="table table-bordered" id="orderTable">
+                    <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Item Code</th>
+                            <th>Item Name</th>
+                            <th>Category</th>
+                            <th>Price (₹)</th>
+                            <th>Qty</th>
+                            <th>GST %</th>
+                            <th>Subtotal (₹)</th>
+                            <th>GST Amount (₹)</th>
+                            <th>Total (₹)</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="orderRows"></tbody>
+                </table>
+            </div>
+
+            <div class="total-panel">
+                <div class="total-line">
+                    <span>Subtotal</span>
+                    <strong>₹<span id="subtotalDisplay">0.00</span></strong>
+                </div>
+                <div class="total-line">
+                    <span>Total GST</span>
+                    <strong>₹<span id="gstDisplay">0.00</span></strong>
+                </div>
+                <div class="total-line grand-total">
+                    <span>Grand Total</span>
+                    <span>₹<span id="grandTotalDisplay">0.00</span></span>
+                </div>
+            </div>
+
+            <div id="message" class="mt-3" role="status"
+                 aria-live="polite"></div>
+
+            <div class="d-flex justify-content-between flex-wrap gap-2 mt-4">
+                <button type="button" class="btn btn-outline-secondary"
+                        onclick="window.location.href='{{ home_url }}'">
+                    Cancel
+                </button>
+
+                <button type="submit" id="saveButton" class="btn-save">
+                    Save Order
+                </button>
+            </div>
+
+        </form>
+    </div>
+</main>
+
+<script>
+    const urls = {
+        suggestions: "{% url 'get_item_suggestions' %}",
+        details: "{% url 'get_item_details' %}",
+        codeDetails: "{% url 'get_item_by_code' 'ITEMCODE' %}",
+        save: "{% url 'save_order_user' %}",
+        home: "{{ home_url }}"
+    };
+    const orderSource = "{{ source }}";
+
+    const rowsContainer = document.getElementById("orderRows");
+    let rowCounter = 0;
+
+    function escapeHtml(value) {
+        return String(value ?? "").replace(/[&<>"']/g, char => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;"
+        })[char]);
+    }
+
+    function addRow() {
+        rowCounter++;
+
+        const row = document.createElement("tr");
+        row.dataset.rowId = rowCounter;
+
+        row.innerHTML = `
+            <td class="serial">${rowsContainer.children.length + 1}</td>
+
+            <td>
+                <input type="text" class="form-control item-code"
+                       maxlength="50" aria-label="Item code">
+            </td>
+
+            <td>
+                <input type="text" class="form-control item-name"
+                       list="food-list-${rowCounter}"
+                       autocomplete="off" aria-label="Item name">
+                <datalist id="food-list-${rowCounter}"></datalist>
+            </td>
+
+            <td>
+                <input type="text" class="form-control category"
+                       readonly aria-label="Category">
+            </td>
+
+            <td>
+                <input type="number" class="form-control price"
+                       min="0" step="0.01" readonly aria-label="Price">
+            </td>
+
+            <td>
+                <input type="number" class="form-control qty"
+                       min="1" step="1" value="1"
+                       aria-label="Quantity">
+            </td>
+
+            <td>
+                <input type="number" class="form-control gst"
+                       min="0" max="100" step="0.01" value="0"
+                       aria-label="GST percentage">
+            </td>
+
+            <td><input class="form-control subtotal" readonly value="0.00"></td>
+            <td><input class="form-control gst-amount" readonly value="0.00"></td>
+            <td><input class="form-control total" readonly value="0.00"></td>
+
+            <td>
+                <button type="button" class="btn-remove"
+                        aria-label="Remove item">✕</button>
+            </td>
+        `;
+
+        rowsContainer.appendChild(row);
+        renumberRows();
+        return row;
+    }
+
+    function renumberRows() {
+        [...rowsContainer.querySelectorAll("tr")].forEach((row, index) => {
+            row.querySelector(".serial").textContent = index + 1;
+        });
+    }
+
+    function showMessage(text, type = "danger") {
+        const message = document.getElementById("message");
+        message.className = `alert alert-${type} mt-3`;
+        message.textContent = text;
+    }
+
+    function clearMessage() {
+        const message = document.getElementById("message");
+        message.className = "mt-3";
+        message.textContent = "";
+    }
+
+    function fillItem(row, item) {
+        row.querySelector(".item-code").value = item.Item_code ?? "";
+        row.querySelector(".item-name").value = item.Item_name ?? "";
+        row.querySelector(".category").value = item.item_cat ?? "";
+        row.querySelector(".price").value = item.Item_price ?? "";
+        calculateRow(row);
+    }
+
+    async function fetchItemByName(row) {
+        const name = row.querySelector(".item-name").value.trim();
+        if (!name) return;
+
+        try {
+            const response = await fetch(
+                `${urls.details}?item_name=${encodeURIComponent(name)}`
+            );
+            const data = await response.json();
+
+            if (!response.ok || data.error) {
+                row.querySelector(".item-code").value = "";
+                row.querySelector(".category").value = "";
+                row.querySelector(".price").value = "";
+                calculateRow(row);
+                showMessage(data.error || "Item not found.");
+                return;
+            }
+
+            fillItem(row, data);
+            clearMessage();
+        } catch (error) {
+            showMessage("Unable to retrieve item details.");
+        }
+    }
+
+    async function fetchItemByCode(row) {
+        const code = row.querySelector(".item-code").value.trim();
+        if (!code) return;
+
+        try {
+            const url = urls.codeDetails.replace(
+                "ITEMCODE", encodeURIComponent(code)
+            );
+            const response = await fetch(url);
+            const data = await response.json();
+
+            if (!response.ok || data.error) {
+                row.querySelector(".item-name").value = "";
+                row.querySelector(".category").value = "";
+                row.querySelector(".price").value = "";
+                calculateRow(row);
+                showMessage(data.error || "Item code not found.");
+                return;
+            }
+
+            fillItem(row, data);
+            clearMessage();
+        } catch (error) {
+            showMessage("Unable to retrieve item details.");
+        }
+    }
+
+    async function fetchSuggestions(row) {
+        const input = row.querySelector(".item-name");
+        const list = row.querySelector("datalist");
+        const query = input.value.trim();
+
+        list.replaceChildren();
+
+        if (query.length < 2) return;
+
+        try {
+            const response = await fetch(
+                `${urls.suggestions}?query=${encodeURIComponent(query)}`
+            );
+            const items = await response.json();
+
+            items.forEach(item => {
+                const option = document.createElement("option");
+                option.value = item.Item_name;
+                list.appendChild(option);
+            });
+        } catch (error) {
+            console.error("Item suggestions error:", error);
+        }
+    }
+
+    function calculateRow(row) {
+        const price = Number(row.querySelector(".price").value) || 0;
+        const qty = Number(row.querySelector(".qty").value) || 0;
+        const gstRate = Number(row.querySelector(".gst").value) || 0;
+
+        const subtotal = price * qty;
+        const gstAmount = subtotal * gstRate / 100;
+        const total = subtotal + gstAmount;
+
+        row.querySelector(".subtotal").value = subtotal.toFixed(2);
+        row.querySelector(".gst-amount").value = gstAmount.toFixed(2);
+        row.querySelector(".total").value = total.toFixed(2);
+
+        calculateBill();
+    }
+
+    function calculateBill() {
+        let subtotal = 0;
+        let gst = 0;
+        let grandTotal = 0;
+
+        rowsContainer.querySelectorAll("tr").forEach(row => {
+            subtotal += Number(row.querySelector(".subtotal").value) || 0;
+            gst += Number(row.querySelector(".gst-amount").value) || 0;
+            grandTotal += Number(row.querySelector(".total").value) || 0;
+        });
+
+        document.getElementById("subtotalDisplay").textContent =
+            subtotal.toFixed(2);
+        document.getElementById("gstDisplay").textContent = gst.toFixed(2);
+        document.getElementById("grandTotalDisplay").textContent =
+            grandTotal.toFixed(2);
+    }
+
+    document.getElementById("addRowButton").addEventListener("click", addRow);
+
+    rowsContainer.addEventListener("input", event => {
+        const row = event.target.closest("tr");
+        if (!row) return;
+
+        if (event.target.classList.contains("item-name")) {
+            fetchSuggestions(row);
+        }
+
+        if (
+            event.target.classList.contains("qty") ||
+            event.target.classList.contains("gst")
+        ) {
+            calculateRow(row);
+        }
+    });
+
+    rowsContainer.addEventListener("change", event => {
+        const row = event.target.closest("tr");
+        if (!row) return;
+
+        if (event.target.classList.contains("item-name")) {
+            fetchItemByName(row);
+        }
+    });
+
+    rowsContainer.addEventListener("focusout", event => {
+        const row = event.target.closest("tr");
+        if (row && event.target.classList.contains("item-code")) {
+            fetchItemByCode(row);
+        }
+    });
+
+    rowsContainer.addEventListener("click", event => {
+        if (event.target.classList.contains("btn-remove")) {
+            event.target.closest("tr").remove();
+            renumberRows();
+            calculateBill();
+        }
+    });
+
+    document.getElementById("billForm").addEventListener(
+        "submit", async event => {
+            event.preventDefault();
+            clearMessage();
+
+            const tableName = document.getElementById("table_name").value.trim();
+            const billNo = document.getElementById("bill_no").value.trim();
+            const billDate = document.getElementById("bill_date").value;
+
+            if (!tableName || !billNo || !billDate) {
+                showMessage("Please enter the table, bill number and date.");
+                return;
+            }
+
+            const billItems = [];
+            let invalidRow = false;
+
+            rowsContainer.querySelectorAll("tr").forEach(row => {
+                const code = row.querySelector(".item-code").value.trim();
+                const name = row.querySelector(".item-name").value.trim();
+                const category = row.querySelector(".category").value.trim();
+                const price = row.querySelector(".price").value;
+                const qty = row.querySelector(".qty").value;
+                const gst = row.querySelector(".gst").value;
+
+                // Ignore entirely empty rows.
+                if (!code && !name) return;
+
+                if (!code || !name || !category || !price ||
+                    Number(qty) < 1 || gst === "" ||
+                    Number(gst) < 0 || Number(gst) > 100) {
+                    invalidRow = true;
+                    return;
+                }
+
+                billItems.push({
+                    item_code: code,
+                    item_name: name,
+                    item_cat: category,
+                    qty: Number(qty),
+                    gst: Number(gst)
+                });
+            });
+
+            if (invalidRow) {
+                showMessage(
+                    "Complete every selected item and check its quantity and GST."
+                );
+                return;
+            }
+
+            if (!billItems.length) {
+                showMessage("Please add at least one valid food item.");
+                return;
+            }
+
+            const saveButton = document.getElementById("saveButton");
+            saveButton.disabled = true;
+            saveButton.textContent = "Saving...";
+
+            try {
+                const response = await fetch(urls.save, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRFToken": document.querySelector(
+                            "[name=csrfmiddlewaretoken]"
+                        ).value
+                    },
+                    body: JSON.stringify({
+                        billDetails: {
+                            table_name: tableName,
+                            bill_no: billNo,
+                            bill_date: billDate,
+                            source: orderSource
+                        },
+                        billItems: billItems
+                    })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok || !data.success) {
+                    throw new Error(data.error || "Unable to save order.");
+                }
+
+                showMessage(
+                    `Order saved successfully! Bill ${data.bill_no}; total ₹${data.bill_total}.`,
+                    "success"
+                );
+
+                saveButton.textContent = "Saved";
+                setTimeout(() => {
+                    window.location.href = urls.home;
+                }, 1500);
+
+            } catch (error) {
+                showMessage(error.message || "Unable to save order.");
+                saveButton.disabled = false;
+                saveButton.textContent = "Save Order";
+            }
+        }
+    );
+
+    // Start with five blank rows, as in your original page.
+    for (let i = 0; i < 5; i++) {
+        addRow();
+    }
+</script>
+
+</body>
+</html>

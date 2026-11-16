@@ -1,0 +1,3236 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BCDC Café | Cafe Management System</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+
+
+    <style>
+
+        /* =========================
+           GENERAL
+        ========================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #fffaf5;
+            color: #2b1b14;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .navbar {
+            background: rgba(31, 20, 15, 0.96);
+            backdrop-filter: blur(15px);
+            padding: 15px 0;
+        }
+
+        .navbar-brand {
+            font-family: 'DM Serif Display', serif;
+            font-size: 30px;
+            color: white !important;
+        }
+
+        .navbar-brand span {
+            color: #e7a05f;
+        }
+
+        .nav-link {
+            color: #ddd !important;
+            margin: 0 8px;
+            transition: 0.3s;
+        }
+
+        .nav-link:hover {
+            color: #e6a064 !important;
+        }
+
+        .login-link {
+            color: white;
+            margin-right: 15px;
+        }
+
+        .login-link:hover {
+            color: #e5a064;
+        }
+
+        .register-btn {
+            background: linear-gradient(135deg, #bd6e35, #e5a064);
+            color: white;
+            padding: 11px 22px;
+            border-radius: 30px;
+            transition: 0.3s;
+        }
+
+        .register-btn:hover {
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(229, 160, 100, .35);
+        }
+
+        .cart-btn {
+            color: white;
+            font-size: 20px;
+            margin-right: 20px;
+            position: relative;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -10px;
+            right: -12px;
+            background: #e8a05e;
+            color: white;
+            font-size: 10px;
+            width: 19px;
+            height: 19px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            min-height: 100vh;
+            padding-top: 130px;
+            padding-bottom: 70px;
+
+            background:
+                radial-gradient(circle at 80% 40%,
+                rgba(226, 145, 78, .20),
+                transparent 35%),
+                linear-gradient(135deg,
+                #241611,
+                #0d0907);
+
+            color: white;
+            overflow: hidden;
+        }
+
+        .hero-small {
+            color: #e7a064;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 70px;
+            line-height: 1.05;
+        }
+
+        .hero h1 span {
+            color: #e3a16c;
+        }
+
+        .hero-text {
+            color: #c8bfba;
+            max-width: 580px;
+            line-height: 1.8;
+            margin-top: 25px;
+        }
+
+        .hero-buttons {
+            margin-top: 35px;
+        }
+
+        .primary-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #c17439, #e2a069);
+            color: white;
+            padding: 15px 28px;
+            border-radius: 30px;
+            margin-right: 10px;
+            transition: .3s;
+        }
+
+        .primary-btn:hover {
+            color: white;
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(215, 137, 74, .4);
+        }
+
+        .secondary-btn {
+            display: inline-block;
+            border: 1px solid #80695b;
+            color: white;
+            padding: 14px 27px;
+            border-radius: 30px;
+            transition: .3s;
+        }
+
+        .secondary-btn:hover {
+            color: #e3a16c;
+            border-color: #e3a16c;
+        }
+
+
+        /* HERO IMAGE */
+
+        .hero-image-box {
+            position: relative;
+            text-align: center;
+        }
+
+        .hero-image {
+            width: 100%;
+            max-width: 570px;
+            height: 470px;
+            object-fit: cover;
+            border-radius: 40px;
+
+            box-shadow:
+                0 30px 70px rgba(0,0,0,.7);
+
+            animation: floatImage 5s ease-in-out infinite;
+        }
+
+        @keyframes floatImage {
+
+            0% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
+
+            100% {
+                transform: translateY(0);
+            }
+
+        }
+
+
+        /* RATING CARD */
+
+        .rating-card {
+            position: absolute;
+            right: 0;
+            top: 60px;
+
+            background: rgba(49,32,24,.95);
+            border: 1px solid #674a38;
+
+            padding: 16px 20px;
+            border-radius: 17px;
+
+            text-align: left;
+        }
+
+        .stars {
+            color: #f0ae6d;
+            letter-spacing: 2px;
+        }
+
+        .rating-card strong {
+            font-size: 25px;
+        }
+
+
+        /* FLOATING OFFER */
+
+        .offer-card {
+            position: absolute;
+            left: 0;
+            bottom: 40px;
+
+            background: #d48748;
+            color: white;
+
+            padding: 16px 22px;
+            border-radius: 17px;
+
+            box-shadow: 0 15px 30px rgba(0,0,0,.3);
+
+            animation: floatingOffer 3s ease-in-out infinite;
+        }
+
+        @keyframes floatingOffer {
+
+            0% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
+
+            100% {
+                transform: translateY(0);
+            }
+
+        }
+
+
+        /* =========================
+           STATS
+        ========================= */
+
+        .stats {
+            margin-top: 50px;
+        }
+
+        .stat-box h3 {
+            color: #e4a16a;
+            font-size: 28px;
+        }
+
+        .stat-box p {
+            color: #92847d;
+            font-size: 12px;
+        }
+
+
+        /* =========================
+           SECTION
+        ========================= */
+
+        .section {
+            padding: 100px 0;
+        }
+
+        .section-label {
+            color: #c8783d;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 2px;
+        }
+
+        .section-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: 50px;
+        }
+
+        .section-title span {
+            color: #c77b42;
+        }
+
+        .section-description {
+            color: #82766e;
+        }
+
+
+        /* =========================
+           FEATURES
+        ========================= */
+
+        .features {
+            background: #fffaf5;
+            padding: 70px 0;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 22px;
+            padding: 30px;
+
+            height: 100%;
+
+            box-shadow:
+                0 10px 35px rgba(73,44,27,.08);
+
+            transition: .35s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow:
+                0 20px 45px rgba(73,44,27,.15);
+        }
+
+        .feature-icon {
+            width: 65px;
+            height: 65px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background: #f7dfcb;
+            color: #b96935;
+
+            font-size: 27px;
+
+            margin-bottom: 20px;
+        }
+
+        .feature-card h5 {
+            font-weight: 600;
+        }
+
+        .feature-card p {
+            color: #83776e;
+            font-size: 13px;
+        }
+
+
+        /* =========================
+           ABOUT
+        ========================= */
+
+        .about {
+            background: linear-gradient(
+                135deg,
+                #f7e8da,
+                #fffaf4
+            );
+        }
+
+        .about-image {
+            width: 100%;
+            height: 480px;
+            object-fit: cover;
+            border-radius: 30px;
+
+            box-shadow:
+                20px 20px 0 #c67d44;
+        }
+
+        .about-text {
+            color: #766b64;
+            line-height: 1.9;
+        }
+
+        .check-item {
+            margin-top: 15px;
+        }
+
+        .check-item i {
+            color: #c3783e;
+            margin-right: 8px;
+        }
+
+
+        /* =========================
+           MENU FILTER
+        ========================= */
+
+        .category-buttons {
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .category-btn {
+            border: 1px solid #d9c3b1;
+            background: white;
+            color: #654737;
+
+            padding: 9px 20px;
+            border-radius: 25px;
+
+            margin: 5px;
+
+            transition: .3s;
+        }
+
+        .category-btn:hover,
+        .category-btn.active {
+            background: #c77b42;
+            color: white;
+            border-color: #c77b42;
+        }
+
+
+        /* =========================
+           FOOD CARD
+        ========================= */
+
+        .food-card {
+            background: white;
+            border-radius: 22px;
+            overflow: hidden;
+
+            height: 100%;
+
+            box-shadow:
+                0 10px 35px rgba(70,45,30,.08);
+
+            transition: .4s;
+        }
+
+        .food-card:hover {
+            transform: translateY(-10px);
+
+            box-shadow:
+                0 20px 50px rgba(70,45,30,.18);
+        }
+
+        .food-image {
+            height: 220px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .food-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: .5s;
+        }
+
+        .food-card:hover .food-image img {
+            transform: scale(1.1);
+        }
+
+        .heart-btn {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+
+            width: 40px;
+            height: 40px;
+
+            border: none;
+            border-radius: 50%;
+
+            background: rgba(255,255,255,.9);
+
+            color: #9a5b37;
+
+            transition: .3s;
+        }
+
+        .heart-btn:hover {
+            background: #c8783d;
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .price {
+            position: absolute;
+            right: 15px;
+            top: 15px;
+
+            background: #c77b42;
+            color: white;
+
+            padding: 7px 14px;
+            border-radius: 20px;
+
+            font-size: 13px;
+        }
+
+        .food-body {
+            padding: 22px;
+        }
+
+        .food-body h4 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 24px;
+        }
+
+        .food-body p {
+            color: #82766e;
+            font-size: 13px;
+            min-height: 45px;
+        }
+
+        .food-rating {
+            color: #d38a4d;
+            font-size: 14px;
+        }
+
+        .add-cart {
+            width: 100%;
+            border: none;
+
+            background: #2c1b14;
+            color: white;
+
+            padding: 11px;
+            border-radius: 12px;
+
+            margin-top: 15px;
+
+            transition: .3s;
+        }
+
+        .add-cart:hover {
+            background: #c77b42;
+        }
+
+
+        /* =========================
+           OFFER
+        ========================= */
+
+        .special-offer {
+            background:
+                linear-gradient(
+                    120deg,
+                    #2b1a13,
+                    #7d4426
+                );
+
+            color: white;
+            border-radius: 30px;
+
+            padding: 60px;
+
+            position: relative;
+            overflow: hidden;
+        }
+
+        .special-offer::after {
+            content: "☕";
+
+            position: absolute;
+            right: 50px;
+            bottom: -60px;
+
+            font-size: 220px;
+
+            opacity: .08;
+        }
+
+        .discount {
+            color: #f0ad6d;
+            font-size: 15px;
+            letter-spacing: 3px;
+        }
+
+        .special-offer h2 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 50px;
+        }
+
+
+        /* =========================
+           REVIEWS
+        ========================= */
+
+        .review-card {
+            background: white;
+            padding: 30px;
+
+            border-radius: 20px;
+
+            box-shadow:
+                0 10px 30px rgba(70,45,30,.08);
+
+            height: 100%;
+        }
+
+        .review-avatar {
+            width: 50px;
+            height: 50px;
+
+            border-radius: 50%;
+
+            background: #e9c4a4;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: #734324;
+
+            font-weight: 600;
+        }
+
+        .review-card p {
+            color: #766b65;
+            line-height: 1.8;
+            font-size: 13px;
+        }
+
+
+        /* =========================
+           CONTACT
+        ========================= */
+
+        .contact {
+            background: #f5e6d8;
+        }
+
+        .contact-box {
+            background:
+                linear-gradient(
+                    135deg,
+                    #2b1b14,
+                    #432619
+                );
+
+            color: white;
+
+            border-radius: 30px;
+
+            padding: 60px;
+        }
+
+        .contact-info {
+            background: rgba(255,255,255,.06);
+
+            border: 1px solid rgba(255,255,255,.1);
+
+            border-radius: 20px;
+
+            padding: 25px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+
+            margin-bottom: 20px;
+        }
+
+        .contact-item i {
+            color: #e2a068;
+            font-size: 22px;
+        }
+
+        .contact-item small {
+            display: block;
+            color: #a89c94;
+        }
+
+
+        /* =========================
+           LOGIN / REGISTER
+        ========================= */
+
+        .auth-card {
+            background: white;
+            border-radius: 25px;
+            overflow: hidden;
+
+            box-shadow:
+                0 20px 60px rgba(65,40,25,.12);
+        }
+
+        .auth-side {
+            background:
+                linear-gradient(
+                    135deg,
+                    #2b1a13,
+                    #9b592f
+                );
+
+            color: white;
+
+            padding: 50px;
+
+            min-height: 420px;
+        }
+
+        .auth-side h3 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 42px;
+        }
+
+        .auth-side p {
+            color: #dfd0c7;
+            line-height: 1.8;
+        }
+
+        .auth-form {
+            padding: 50px;
+        }
+
+        .auth-form h3 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 34px;
+        }
+
+        .form-control {
+            border-radius: 12px;
+            padding: 12px;
+        }
+
+        .form-control:focus {
+            border-color: #c77b42;
+            box-shadow: 0 0 0 .2rem rgba(199,123,66,.15);
+        }
+
+        .auth-button {
+            background: #c77b42;
+            color: white;
+            border: none;
+
+            padding: 12px 25px;
+            border-radius: 25px;
+
+            transition: .3s;
+        }
+
+        .auth-button:hover {
+            background: #a9602f;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            background: #17100d;
+            color: white;
+
+            padding: 60px 0 25px;
+        }
+
+        .footer-logo {
+            font-family: 'DM Serif Display', serif;
+            font-size: 30px;
+        }
+
+        .footer-logo span {
+            color: #df9e64;
+        }
+
+        footer p {
+            color: #8d817b;
+            font-size: 13px;
+        }
+
+        footer h6 {
+            color: #e0a068;
+            margin-bottom: 18px;
+        }
+
+        footer a {
+            color: #a99e97;
+            display: block;
+            margin-bottom: 10px;
+            font-size: 13px;
+        }
+
+        footer a:hover {
+            color: #e0a068;
+        }
+
+
+        /* =========================
+           BACK TO TOP
+        ========================= */
+
+        .top-btn {
+            position: fixed;
+
+            right: 25px;
+            bottom: 25px;
+
+            width: 45px;
+            height: 45px;
+
+            border: none;
+            border-radius: 50%;
+
+            background: #c77b42;
+            color: white;
+
+            display: none;
+
+            z-index: 999;
+
+            box-shadow: 0 8px 25px rgba(0,0,0,.2);
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media(max-width: 991px) {
+
+            .hero h1 {
+                font-size: 52px;
+            }
+
+            .hero-image-box {
+                margin-top: 60px;
+            }
+
+            .rating-card {
+                right: 10px;
+            }
+
+            .offer-card {
+                left: 10px;
+            }
+
+        }
+
+
+        @media(max-width: 576px) {
+
+            .hero h1 {
+                font-size: 42px;
+            }
+
+            .hero-image {
+                height: 330px;
+            }
+
+            .section-title {
+                font-size: 38px;
+            }
+
+            .special-offer {
+                padding: 35px 25px;
+            }
+
+            .special-offer h2 {
+                font-size: 38px;
+            }
+
+            .contact-box {
+                padding: 35px 25px;
+            }
+
+            .auth-side,
+            .auth-form {
+                padding: 35px 25px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
+{% include 'cafe_app/navbar.html' %}
+<!-- =====================================================
+     HOME
+===================================================== -->
+
+<section id="home"
+         class="hero">
+
+    <div class="container">
+
+        <div class="row align-items-center">
+
+
+            <div class="col-lg-6">
+
+                <div class="hero-small">
+
+                    ✦ WELCOME TO BCDC CAFÉ
+
+                </div>
+
+
+                <h1>
+
+                    Your Daily Dose
+
+                    <span>
+                        Of Happiness.
+                    </span>
+
+                </h1>
+
+
+                <p class="hero-text">
+
+                    Freshly brewed coffee, delicious food,
+                    warm conversations and beautiful moments.
+                    Your perfect cafe experience starts here.
+
+                </p>
+
+
+                <div class="hero-buttons">
+
+                    <a href="#menu"
+                       class="primary-btn">
+
+                        Explore Menu
+
+                        <i class="bi bi-arrow-right"></i>
+
+                    </a>
+
+
+                </div>
+
+
+                <div class="row stats">
+
+                    <div class="col-4 stat-box">
+
+                        <h3>4.9★</h3>
+
+                        <p>
+                            Customer Rating
+                        </p>
+
+                    </div>
+
+
+                    <div class="col-4 stat-box">
+
+                        <h3>20+</h3>
+
+                        <p>
+                            Delicious Items
+                        </p>
+
+                    </div>
+
+
+                    <div class="col-4 stat-box">
+
+                        <h3>5K+</h3>
+
+                        <p>
+                            Happy Customers
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="col-lg-6">
+
+                {% load static %}
+
+<div class="hero-image-box">
+    <img src="{% static 'img/1coffee.jpg' %}"
+         class="hero-image"
+         alt="Dosa">
+</div>
+
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     FEATURES
+===================================================== -->
+
+<section class="features">
+
+    <div class="container">
+
+        <div class="row g-4">
+
+
+            <div class="col-md-4">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+
+                        <i class="bi bi-cup-hot-fill"></i>
+
+                    </div>
+
+                    <h5>
+                        Fresh Coffee
+                    </h5>
+
+                    <p>
+                        Premium coffee beans freshly
+                        brewed by our expert baristas.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-4">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+
+                        <i class="bi bi-heart-fill"></i>
+
+                    </div>
+
+                    <h5>
+                        Made With Love
+                    </h5>
+
+                    <p>
+                        Every dish is prepared with
+                        fresh ingredients and care.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-4">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+
+                        <i class="bi bi-lightning-charge-fill"></i>
+
+                    </div>
+
+                    <h5>
+                        Quick Service
+                    </h5>
+
+                    <p>
+                        Fast ordering and friendly
+                        service for every customer.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     ABOUT
+===================================================== -->
+
+<section id="about"
+         class="section about">
+
+    <div class="container">
+
+        <div class="row align-items-center g-5">
+
+
+            <div class="col-lg-6">
+
+                <img src="{% static 'img/dosa.jpg' %}"
+                     class="about-image"
+                     alt="Cafe Food">
+
+            </div>
+
+
+            <div class="col-lg-6">
+
+                <div class="section-label">
+
+                    ✦ ABOUT BCDC CAFÉ
+
+                </div>
+
+
+                <h2 class="section-title">
+
+                    More Than Coffee,
+
+                    <span>
+                        It's An Experience.
+                    </span>
+
+                </h2>
+
+
+                <p class="about-text">
+
+                    BCDC Café is a modern cafe created for
+                    people who love great coffee, delicious
+                    food and peaceful moments.
+
+                </p>
+
+
+                <p class="about-text">
+
+                    We combine traditional flavours with
+                    modern cafe culture to give our customers
+                    something special every time they visit.
+
+                </p>
+
+
+                <div class="check-item">
+
+                    <i class="bi bi-check-circle-fill"></i>
+
+                    Fresh and quality ingredients
+
+                </div>
+
+
+                <div class="check-item">
+
+                    <i class="bi bi-check-circle-fill"></i>
+
+                    Hygienic food preparation
+
+                </div>
+
+
+                <div class="check-item">
+
+                    <i class="bi bi-check-circle-fill"></i>
+
+                    Friendly customer service
+
+                </div>
+
+
+                <div class="check-item">
+
+                    <i class="bi bi-check-circle-fill"></i>
+
+                    Affordable prices
+
+                </div>
+
+
+                <br>
+
+                <a href="#menu"
+                   class="primary-btn">
+
+                    Discover Our Menu
+                    <i class="bi bi-arrow-right"></i>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     MENU
+===================================================== -->
+
+
+<style>
+
+    /* =====================================================
+         MENU SECTION
+    ===================================================== */
+
+    .section {
+        padding: 80px 6%;
+    }
+
+    .section-label {
+        color: #e67e22;
+        font-weight: 600;
+        letter-spacing: 1px;
+        margin-bottom: 12px;
+    }
+
+    .section-title {
+        color: #3b1f16;
+        font-size: 42px;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .section-title span {
+        color: #e67e22;
+    }
+
+    .section-description {
+        color: #777;
+        max-width: 500px;
+        margin: 0 auto 40px;
+    }
+
+    /* CATEGORY BUTTONS */
+
+    .category-buttons {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 16px;
+        margin-bottom: 50px;
+    }
+
+    .category-btn {
+        padding: 12px 26px;
+        border-radius: 50px;
+        border: 1px solid #e3c9a8;
+        background: #ffffff;
+        color: #3b1f16;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: .25s;
+    }
+
+    .category-btn:hover {
+        border-color: #e67e22;
+    }
+
+    .category-btn.active {
+        background: #cc7a3c;
+        border-color: #cc7a3c;
+        color: #ffffff;
+    }
+
+    /* FOOD CARDS */
+
+    .food-card {
+        background: #fff;
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 8px 25px rgba(0,0,0,.1);
+        transition: .3s;
+        height: 100%;
+    }
+
+    .food-card:hover {
+        transform: translateY(-8px);
+    }
+
+    .food-image {
+        position: relative;
+        background: #f1e4d6;
+    }
+
+    .food-image img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+        display: block;
+    }
+
+    .heart-btn {
+        position: absolute;
+        top: 14px;
+        right: 14px;
+        width: 36px;
+        height: 36px;
+        border: none;
+        border-radius: 50%;
+        background: rgba(255,255,255,.9);
+        color: #3b1f16;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: .2s;
+    }
+
+    .heart-btn:hover {
+        color: #e67e22;
+    }
+
+    .heart-btn.liked {
+        color: #e74c3c;
+    }
+
+    .food-image .price {
+        position: absolute;
+        bottom: 14px;
+        left: 14px;
+        background: #3b1f16;
+        color: #ffc107;
+        font-weight: bold;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 14px;
+    }
+
+    .food-body {
+        padding: 20px;
+    }
+
+    .food-body h4 {
+        color: #3b1f16;
+        font-weight: bold;
+        margin-bottom: 8px;
+    }
+
+    .food-body p {
+        color: #777;
+        font-size: 14px;
+        margin-bottom: 12px;
+    }
+
+    .food-rating {
+        color: #ffc107;
+        font-size: 14px;
+        margin-bottom: 16px;
+    }
+
+    .food-rating small {
+        color: #999;
+        margin-left: 6px;
+    }
+
+    .add-cart {
+        width: 100%;
+        background: #3b1f16;
+        color: #fff;
+        border: none;
+        padding: 12px;
+        border-radius: 30px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: .25s;
+    }
+
+    .add-cart:hover {
+        background: #e67e22;
+    }
+
+    /* MORE FOOD ITEMS BUTTON */
+
+    .view-more-wrap {
+        text-align: center;
+        margin-top: 50px;
+    }
+
+    .view-more-btn {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: linear-gradient(135deg, #3b1f16, #5a2e1c);
+        color: #fff;
+        text-decoration: none;
+        padding: 15px 34px;
+        border-radius: 50px;
+        font-size: 16px;
+        font-weight: 600;
+        letter-spacing: .3px;
+        box-shadow: 0 10px 25px rgba(59, 31, 22, .35);
+        overflow: hidden;
+        transition: transform .25s ease, box-shadow .25s ease, background .25s ease;
+    }
+
+    .view-more-btn .bi-bag-plus {
+        font-size: 18px;
+    }
+
+    .view-more-btn .bi-arrow-right {
+        font-size: 16px;
+        transition: transform .25s ease;
+    }
+
+    .view-more-btn:hover {
+        color: #fff;
+        background: linear-gradient(135deg, #e67e22, #cc7a3c);
+        transform: translateY(-3px);
+        box-shadow: 0 14px 30px rgba(230, 126, 34, .4);
+    }
+
+    .view-more-btn:hover .bi-arrow-right {
+        transform: translateX(5px);
+    }
+
+    .view-more-btn::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -60%;
+        width: 40%;
+        height: 100%;
+        background: rgba(255, 255, 255, .18);
+        transform: skewX(-20deg);
+        transition: left .5s ease;
+    }
+
+    .view-more-btn:hover::after {
+        left: 130%;
+    }
+
+    .view-more-caption {
+        margin-top: 14px;
+        color: #8a6a58;
+        font-size: 14px;
+    }
+
+
+    /* =====================================================
+         OFFERS SECTION
+    ===================================================== */
+
+    #offers {
+        background: #3b1f16;
+    }
+
+    .special-offer {
+        text-align: center;
+        max-width: 640px;
+        margin: 0 auto;
+        color: #fff;
+        padding: 60px 30px;
+        border: 1px solid rgba(255,255,255,.15);
+        border-radius: 24px;
+        background: radial-gradient(circle at top, rgba(230,126,34,.12), transparent 60%);
+    }
+
+    .special-offer .discount {
+        display: inline-block;
+        color: #ffc107;
+        font-weight: 600;
+        letter-spacing: 1px;
+        border: 1px solid rgba(255,193,7,.4);
+        padding: 8px 20px;
+        border-radius: 50px;
+        font-size: 14px;
+    }
+
+    .special-offer h2 {
+        font-size: 34px;
+        font-weight: bold;
+        line-height: 1.35;
+    }
+
+    .special-offer p {
+        color: #d8c3b5;
+        font-size: 16px;
+    }
+
+    .primary-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: #e67e22;
+        color: #fff;
+        text-decoration: none;
+        padding: 14px 32px;
+        border-radius: 50px;
+        font-weight: 600;
+        transition: .25s;
+    }
+
+    .primary-btn:hover {
+        background: #ffc107;
+        color: #3b1f16;
+        transform: translateY(-2px);
+    }
+
+</style>
+
+
+<!-- =====================================================
+     MENU SECTION
+===================================================== -->
+
+{% load static %}
+
+<!-- Bootstrap Icons -->
+<link rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+
+<style>
+
+    /* =====================================================
+       MENU SECTION
+    ===================================================== */
+
+    .cafe-menu-section {
+        padding: 80px 6%;
+        background: #ffffff;
+    }
+
+
+    /* =====================================================
+       SECTION TITLE
+    ===================================================== */
+
+    .cafe-section-label {
+        color: #e67e22;
+        font-weight: 600;
+        letter-spacing: 1px;
+        margin-bottom: 12px;
+    }
+
+    .cafe-section-title {
+        color: #3b1f16;
+        font-size: 42px;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .cafe-section-title span {
+        color: #e67e22;
+    }
+
+    .cafe-section-description {
+        color: #777;
+        max-width: 500px;
+        margin: 0 auto 40px;
+    }
+
+
+    /* =====================================================
+       CATEGORY BUTTONS
+    ===================================================== */
+
+    .cafe-category-buttons {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 16px;
+        margin-bottom: 50px;
+    }
+
+    .cafe-category-btn {
+        padding: 12px 26px;
+        border-radius: 50px;
+        border: 1px solid #e3c9a8;
+        background: #ffffff;
+        color: #3b1f16;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: 0.25s;
+    }
+
+    .cafe-category-btn:hover {
+        border-color: #e67e22;
+    }
+
+    .cafe-category-btn.active {
+        background: #cc7a3c;
+        border-color: #cc7a3c;
+        color: #ffffff;
+    }
+
+
+    /* =====================================================
+       FOOD CARD
+    ===================================================== */
+
+    .cafe-food-card {
+        background: #ffffff;
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.10);
+        transition: transform 0.3s ease;
+        height: 100%;
+    }
+
+    .cafe-food-card:hover {
+        transform: translateY(-8px);
+    }
+
+
+    /* =====================================================
+       FOOD IMAGE
+    ===================================================== */
+
+    .cafe-food-image {
+        position: relative;
+        width: 100%;
+        height: 285px;
+        overflow: hidden;
+        background: #f1e4d6;
+    }
+
+    .cafe-food-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+
+        /* Make sure image is completely visible */
+        filter: none !important;
+        opacity: 1 !important;
+        background: transparent !important;
+    }
+
+
+    /* Remove unwanted overlays */
+
+    .cafe-food-image::before,
+    .cafe-food-image::after,
+    .cafe-food-card::before,
+    .cafe-food-card::after {
+        content: none !important;
+        display: none !important;
+        background: none !important;
+        opacity: 0 !important;
+    }
+
+
+    /* =====================================================
+       HEART BUTTON
+    ===================================================== */
+
+    .cafe-heart-btn {
+        position: absolute;
+        top: 14px;
+        right: 14px;
+
+        width: 38px;
+        height: 38px;
+
+        border: none;
+        border-radius: 50%;
+
+        background: rgba(255, 255, 255, 0.95);
+
+        color: #3b1f16;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        transition: 0.2s;
+
+        z-index: 10;
+
+        cursor: pointer;
+    }
+
+    .cafe-heart-btn:hover {
+        color: #e67e22;
+        transform: scale(1.05);
+    }
+
+    .cafe-heart-btn.liked {
+        color: #e74c3c;
+    }
+
+
+    /* =====================================================
+       PRICE BADGE
+       IMPORTANT: renamed from .price
+    ===================================================== */
+
+    .cafe-food-price {
+        position: absolute !important;
+
+        top: 14px !important;
+        left: 14px !important;
+
+        /* Prevent any global CSS from expanding it */
+        width: auto !important;
+        min-width: 0 !important;
+        max-width: max-content !important;
+
+        height: auto !important;
+        min-height: 0 !important;
+        max-height: max-content !important;
+
+        display: inline-block !important;
+
+        padding: 6px 14px !important;
+
+        background: #3b1f16 !important;
+        color: #ffc107 !important;
+
+        border-radius: 20px !important;
+
+        font-size: 14px !important;
+        font-weight: bold !important;
+
+        line-height: 1.2 !important;
+
+        margin: 0 !important;
+
+        box-shadow: none !important;
+
+        z-index: 20 !important;
+    }
+
+
+    /* =====================================================
+       FOOD BODY
+    ===================================================== */
+
+    .cafe-food-body {
+        padding: 20px;
+    }
+
+    .cafe-food-body h4 {
+        color: #3b1f16;
+        font-weight: bold;
+        margin-bottom: 8px;
+    }
+
+    .cafe-food-body p {
+        color: #777;
+        font-size: 14px;
+        margin-bottom: 12px;
+    }
+
+
+    /* =====================================================
+       RATING
+    ===================================================== */
+
+    .cafe-food-rating {
+        color: #ffc107;
+        font-size: 14px;
+        margin-bottom: 16px;
+    }
+
+    .cafe-food-rating small {
+        color: #999;
+        margin-left: 6px;
+    }
+
+
+    /* =====================================================
+       ADD TO CART
+    ===================================================== */
+
+    .cafe-add-cart {
+        width: 100%;
+
+        background: #3b1f16;
+        color: #ffffff;
+
+        border: none;
+
+        padding: 12px;
+
+        border-radius: 30px;
+
+        font-weight: 600;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        gap: 8px;
+
+        transition: 0.25s;
+
+        cursor: pointer;
+    }
+
+    .cafe-add-cart:hover {
+        background: #e67e22;
+    }
+
+
+    /* =====================================================
+       MORE FOOD ITEMS
+    ===================================================== */
+
+    .cafe-view-more-wrap {
+        text-align: center;
+        margin-top: 50px;
+    }
+
+    .cafe-view-more-btn {
+        position: relative;
+
+        display: inline-flex;
+        align-items: center;
+
+        gap: 10px;
+
+        background: linear-gradient(
+            135deg,
+            #3b1f16,
+            #5a2e1c
+        );
+
+        color: #ffffff;
+
+        text-decoration: none;
+
+        padding: 15px 34px;
+
+        border-radius: 50px;
+
+        font-size: 16px;
+        font-weight: 600;
+
+        letter-spacing: 0.3px;
+
+        box-shadow: 0 10px 25px rgba(59, 31, 22, 0.35);
+
+        overflow: hidden;
+
+        transition:
+            transform 0.25s ease,
+            box-shadow 0.25s ease,
+            background 0.25s ease;
+    }
+
+    .cafe-view-more-btn:hover {
+        color: #ffffff;
+
+        background: linear-gradient(
+            135deg,
+            #e67e22,
+            #cc7a3c
+        );
+
+        transform: translateY(-3px);
+
+        box-shadow:
+            0 14px 30px rgba(230, 126, 34, 0.4);
+    }
+
+    .cafe-view-more-btn .bi-arrow-right {
+        font-size: 16px;
+        transition: transform 0.25s ease;
+    }
+
+    .cafe-view-more-btn:hover .bi-arrow-right {
+        transform: translateX(5px);
+    }
+
+    .cafe-view-more-btn::after {
+        content: "";
+
+        position: absolute;
+
+        top: 0;
+        left: -60%;
+
+        width: 40%;
+        height: 100%;
+
+        background: rgba(255, 255, 255, 0.18);
+
+        transform: skewX(-20deg);
+
+        transition: left 0.5s ease;
+    }
+
+    .cafe-view-more-btn:hover::after {
+        left: 130%;
+    }
+
+    .cafe-view-more-caption {
+        margin-top: 14px;
+
+        color: #8a6a58;
+
+        font-size: 14px;
+    }
+
+
+    /* =====================================================
+       RESPONSIVE
+    ===================================================== */
+
+    @media (max-width: 991px) {
+
+        .cafe-menu-section {
+            padding: 60px 4%;
+        }
+
+        .cafe-food-image {
+            height: 260px;
+        }
+
+    }
+
+
+    @media (max-width: 576px) {
+
+        .cafe-menu-section {
+            padding: 50px 18px;
+        }
+
+        .cafe-section-title {
+            font-size: 34px;
+        }
+
+        .cafe-category-buttons {
+            gap: 10px;
+        }
+
+        .cafe-category-btn {
+            padding: 10px 20px;
+            font-size: 14px;
+        }
+
+        .cafe-food-image {
+            height: 240px;
+        }
+
+    }
+
+</style>
+
+
+<!-- =====================================================
+     MENU SECTION
+===================================================== -->
+
+<section id="menu" class="cafe-menu-section">
+
+    <div class="container">
+
+
+        <!-- =================================================
+             SECTION HEADING
+        ================================================== -->
+
+        <div class="text-center">
+
+            <div class="cafe-section-label">
+                ✦ OUR SPECIAL MENU
+            </div>
+
+            <h2 class="cafe-section-title">
+
+                Taste Something
+                <span>Wonderful</span>
+
+            </h2>
+
+            <p class="cafe-section-description">
+
+                Choose your favourite food and
+                add it to your cart.
+
+            </p>
+
+        </div>
+
+
+        <!-- =================================================
+             CATEGORY BUTTONS
+        ================================================== -->
+
+        <div class="cafe-category-buttons">
+
+            <button
+                class="cafe-category-btn active"
+                onclick="filterFood('all', this)">
+
+                All
+
+            </button>
+
+
+            <button
+                class="cafe-category-btn"
+                onclick="filterFood('coffee', this)">
+
+                ☕ Coffee
+
+            </button>
+
+
+            <button
+                class="cafe-category-btn"
+                onclick="filterFood('food', this)">
+
+                🍽️ Food
+
+            </button>
+
+
+            <button
+                class="cafe-category-btn"
+                onclick="filterFood('dessert', this)">
+
+                🍰 Desserts
+
+            </button>
+
+        </div>
+
+
+        <!-- =================================================
+             FOOD CARDS
+        ================================================== -->
+
+        <div class="row g-4" id="foodContainer">
+
+
+            <!-- =================================================
+                 CAPPUCCINO
+            ================================================== -->
+
+            <div
+                class="col-md-6 col-lg-4 food-item"
+                data-category="coffee">
+
+                <div class="cafe-food-card">
+
+                    <div class="cafe-food-image">
+
+                        <img
+                            src="{% static 'img/1coffee.jpg' %}"
+                            alt="Cappuccino">
+
+
+                        <button
+                            class="cafe-heart-btn"
+                            onclick="favourite(this)">
+
+                            <i class="bi bi-heart"></i>
+
+                        </button>
+
+
+                        <span class="cafe-food-price">
+                            ₹120
+                        </span>
+
+                    </div>
+
+
+                    <div class="cafe-food-body">
+
+                        <h4>
+                            Cappuccino
+                        </h4>
+
+                        <p>
+                            Smooth espresso with creamy steamed milk.
+                        </p>
+
+                        <div class="cafe-food-rating">
+
+                            ★★★★★
+
+                            <small>
+                                4.9
+                            </small>
+
+                        </div>
+
+
+                        <button
+                            class="cafe-add-cart"
+                            onclick="addToCart('Cappuccino')">
+
+                            <i class="bi bi-bag-plus"></i>
+
+                            Add To Cart
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 MASALA DOSA
+            ================================================== -->
+
+            <div
+                class="col-md-6 col-lg-4 food-item"
+                data-category="food">
+
+                <div class="cafe-food-card">
+
+                    <div class="cafe-food-image">
+
+                        <img
+                            src="{% static 'img/dosa.jpg' %}"
+                            alt="Masala Dosa">
+
+
+                        <button
+                            class="cafe-heart-btn"
+                            onclick="favourite(this)">
+
+                            <i class="bi bi-heart"></i>
+
+                        </button>
+
+
+                        <span class="cafe-food-price">
+                            ₹90
+                        </span>
+
+                    </div>
+
+
+                    <div class="cafe-food-body">
+
+                        <h4>
+                            Masala Dosa
+                        </h4>
+
+                        <p>
+                            Crispy dosa served with chutney and sambar.
+                        </p>
+
+                        <div class="cafe-food-rating">
+
+                            ★★★★★
+
+                            <small>
+                                4.8
+                            </small>
+
+                        </div>
+
+
+                        <button
+                            class="cafe-add-cart"
+                            onclick="addToCart('Masala Dosa')">
+
+                            <i class="bi bi-bag-plus"></i>
+
+                            Add To Cart
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 CHEESE BURGER
+            ================================================== -->
+
+            <div
+                class="col-md-6 col-lg-4 food-item"
+                data-category="food">
+
+                <div class="cafe-food-card">
+
+                    <div class="cafe-food-image">
+
+                        <img
+                            src="{% static 'img/nonveg.jpg' %}"
+                            alt="Cheese Burger">
+
+
+                        <button
+                            class="cafe-heart-btn"
+                            onclick="favourite(this)">
+
+                            <i class="bi bi-heart"></i>
+
+                        </button>
+
+
+                        <span class="cafe-food-price">
+                            ₹150
+                        </span>
+
+                    </div>
+
+
+                    <div class="cafe-food-body">
+
+                        <h4>
+                            Cheese Burger
+                        </h4>
+
+                        <p>
+                            Juicy burger with fresh vegetables and cheese.
+                        </p>
+
+                        <div class="cafe-food-rating">
+
+                            ★★★★★
+
+                            <small>
+                                4.7
+                            </small>
+
+                        </div>
+
+
+                        <button
+                            class="cafe-add-cart"
+                            onclick="addToCart('Cheese Burger')">
+
+                            <i class="bi bi-bag-plus"></i>
+
+                            Add To Cart
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 CHEESE PIZZA
+            ================================================== -->
+
+            <div
+                class="col-md-6 col-lg-4 food-item"
+                data-category="food">
+
+                <div class="cafe-food-card">
+
+                    <div class="cafe-food-image">
+
+                        <img
+                            src="{% static 'img/1pizza.jpg' %}"
+                            alt="Cheese Pizza">
+
+
+                        <button
+                            class="cafe-heart-btn"
+                            onclick="favourite(this)">
+
+                            <i class="bi bi-heart"></i>
+
+                        </button>
+
+
+                        <span class="cafe-food-price">
+                            ₹180
+                        </span>
+
+                    </div>
+
+
+                    <div class="cafe-food-body">
+
+                        <h4>
+                            Cheese Pizza
+                        </h4>
+
+                        <p>
+                            Hot pizza topped with cheese and fresh vegetables.
+                        </p>
+
+                        <div class="cafe-food-rating">
+
+                            ★★★★★
+
+                            <small>
+                                4.8
+                            </small>
+
+                        </div>
+
+
+                        <button
+                            class="cafe-add-cart"
+                            onclick="addToCart('Cheese Pizza')">
+
+                            <i class="bi bi-bag-plus"></i>
+
+                            Add To Cart
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 CHOCOLATE CAKE
+            ================================================== -->
+
+            <div
+                class="col-md-6 col-lg-4 food-item"
+                data-category="dessert">
+
+                <div class="cafe-food-card">
+
+                    <div class="cafe-food-image">
+
+                        <img
+                            src="{% static 'img/1ice1.jpeg' %}"
+                            alt="Chocolate Cake">
+
+
+                        <button
+                            class="cafe-heart-btn"
+                            onclick="favourite(this)">
+
+                            <i class="bi bi-heart"></i>
+
+                        </button>
+
+
+                        <span class="cafe-food-price">
+                            ₹110
+                        </span>
+
+                    </div>
+
+
+                    <div class="cafe-food-body">
+
+                        <h4>
+                            Chocolate Cake
+                        </h4>
+
+                        <p>
+                            Soft chocolate cake with creamy chocolate topping.
+                        </p>
+
+                        <div class="cafe-food-rating">
+
+                            ★★★★★
+
+                            <small>
+                                4.9
+                            </small>
+
+                        </div>
+
+
+                        <button
+                            class="cafe-add-cart"
+                            onclick="addToCart('Chocolate Cake')">
+
+                            <i class="bi bi-bag-plus"></i>
+
+                            Add To Cart
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 CLUB SANDWICH
+            ================================================== -->
+
+            <div
+                class="col-md-6 col-lg-4 food-item"
+                data-category="food">
+
+                <div class="cafe-food-card">
+
+                    <div class="cafe-food-image">
+
+                        <img
+                            src="{% static 'img/samosa.jpg' %}"
+                            alt="Club Sandwich">
+
+
+                        <button
+                            class="cafe-heart-btn"
+                            onclick="favourite(this)">
+
+                            <i class="bi bi-heart"></i>
+
+                        </button>
+
+
+                        <span class="cafe-food-price">
+                            ₹100
+                        </span>
+
+                    </div>
+
+
+                    <div class="cafe-food-body">
+
+                        <h4>
+                            Club Sandwich
+                        </h4>
+
+                        <p>
+                            Fresh vegetables, cheese and crispy toasted bread.
+                        </p>
+
+                        <div class="cafe-food-rating">
+
+                            ★★★★☆
+
+                            <small>
+                                4.6
+                            </small>
+
+                        </div>
+
+
+                        <button
+                            class="cafe-add-cart"
+                            onclick="addToCart('Club Sandwich')">
+
+                            <i class="bi bi-bag-plus"></i>
+
+                            Add To Cart
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =================================================
+             MORE FOOD ITEMS
+        ================================================== -->
+
+        <div class="cafe-view-more-wrap">
+
+            <a
+                href="{% url 'menu' %}"
+                class="cafe-view-more-btn">
+
+                <i class="bi bi-bag-plus"></i>
+
+                More Food Items
+
+                <i class="bi bi-arrow-right"></i>
+
+            </a>
+
+
+            <p class="cafe-view-more-caption">
+
+                Explore the full menu with drinks,
+                desserts and specials
+
+            </p>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script>
+
+    /* =====================================================
+       FILTER FOOD
+    ===================================================== */
+
+    function filterFood(category, btn) {
+
+        document
+            .querySelectorAll('.cafe-category-btn')
+            .forEach(function(button) {
+
+                button.classList.remove('active');
+
+            });
+
+
+        btn.classList.add('active');
+
+
+        document
+            .querySelectorAll('.food-item')
+            .forEach(function(item) {
+
+                if (
+                    category === 'all' ||
+                    item.dataset.category === category
+                ) {
+
+                    item.style.display = '';
+
+                } else {
+
+                    item.style.display = 'none';
+
+                }
+
+            });
+
+    }
+
+
+    /* =====================================================
+       FAVOURITE
+    ===================================================== */
+
+    function favourite(btn) {
+
+        btn.classList.toggle('liked');
+
+
+        const icon = btn.querySelector('i');
+
+
+        icon.classList.toggle('bi-heart');
+
+        icon.classList.toggle('bi-heart-fill');
+
+    }
+
+
+    /* =====================================================
+       ADD TO CART
+    ===================================================== */
+
+    function addToCart(itemName) {
+
+        alert(itemName + ' added to cart');
+
+    }
+
+</script>
+<!-- =====================================================
+     REVIEWS
+===================================================== -->
+
+<section class="section"
+         style="background:#fff7f0;">
+
+    <div class="container">
+
+        <div class="text-center mb-5">
+
+            <div class="section-label">
+
+                ✦ CUSTOMER LOVE
+
+            </div>
+
+
+            <h2 class="section-title">
+
+                What Our Customers
+
+                <span>
+                    Say
+                </span>
+
+            </h2>
+
+        </div>
+
+
+        <div class="row g-4">
+
+
+            <div class="col-md-4">
+
+                <div class="review-card">
+
+                    <div class="stars">
+                        ★★★★★
+                    </div>
+
+                    <p class="mt-3">
+
+                        "The coffee is amazing and the
+                        atmosphere is so peaceful.
+                        Definitely coming again!"
+
+                    </p>
+
+
+                    <div class="d-flex align-items-center gap-3">
+
+                        <div class="review-avatar">
+                            AK
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Ananya
+                            </strong>
+
+                            <small class="d-block text-muted">
+                                Regular Customer
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="col-md-4">
+
+                <div class="review-card">
+
+                    <div class="stars">
+                        ★★★★★
+                    </div>
+
+                    <p class="mt-3">
+
+                        "Loved the South Indian food.
+                        Everything was fresh and
+                        delicious."
+
+                    </p>
+
+
+                    <div class="d-flex align-items-center gap-3">
+
+                        <div class="review-avatar">
+                            RS
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Rahul
+                            </strong>
+
+                            <small class="d-block text-muted">
+                                Food Lover
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="col-md-4">
+
+                <div class="review-card">
+
+                    <div class="stars">
+                        ★★★★★
+                    </div>
+
+                    <p class="mt-3">
+
+                        "Great service, beautiful
+                        ambience and reasonable prices.
+                        Highly recommended!"
+
+                    </p>
+
+
+                    <div class="d-flex align-items-center gap-3">
+
+                        <div class="review-avatar">
+                            SP
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Sneha
+                            </strong>
+
+                            <small class="d-block text-muted">
+                                Happy Customer
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     CONTACT
+===================================================== -->
+
+<section id="contact"
+         class="section contact">
+
+    <div class="container">
+
+        <div class="contact-box">
+
+            <div class="row align-items-center">
+
+
+                <div class="col-lg-7">
+
+                    <div class="section-label">
+
+                        ✦ CONTACT US
+
+                    </div>
+
+
+                    <h2 class="section-title text-white">
+
+                        Come For Coffee,
+
+                        <span>
+                            Stay For Memories.
+                        </span>
+
+                    </h2>
+
+
+                    <p class="mt-3"
+                       style="color:#c7bbb3;">
+
+                        Have a question?
+                        Want to reserve a table?
+                        We would love to hear from you.
+
+                    </p>
+
+
+                    <a href="mailto:hello@bcdccafe.com"
+                       class="primary-btn mt-3">
+
+                        Send Message
+
+                        <i class="bi bi-arrow-right"></i>
+
+                    </a>
+
+                </div>
+
+
+                <div class="col-lg-5 mt-4 mt-lg-0">
+
+                    <div class="contact-info">
+
+
+                        <div class="contact-item">
+
+                            <i class="bi bi-geo-alt-fill"></i>
+
+                            <div>
+
+                                <strong>
+                                    Location
+                                </strong>
+
+                                <small>
+                                    Bengaluru, Karnataka
+                                </small>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="contact-item">
+
+                            <i class="bi bi-telephone-fill"></i>
+
+                            <div>
+
+                                <strong>
+                                    Phone
+                                </strong>
+
+                                <small>
+                                    +91 98765 43210
+                                </small>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="contact-item">
+
+                            <i class="bi bi-envelope-fill"></i>
+
+                            <div>
+
+                                <strong>
+                                    Email
+                                </strong>
+
+                                <small>
+                                    hello@bcdccafe.com
+                                </small>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="contact-item">
+
+                            <i class="bi bi-clock-fill"></i>
+
+                            <div>
+
+                                <strong>
+                                    Opening Hours
+                                </strong>
+
+                                <small>
+                                    8:00 AM - 10:00 PM
+                                </small>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     LOGIN
+===================================================== -->
+
+
+
+<!-- =====================================================
+     REGISTER
+===================================================== -->
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+
+    <div class="container">
+
+        <div class="row">
+
+
+            <div class="col-lg-5">
+
+                <div class="footer-logo">
+
+                    ☕ BCDC <span>Café</span>
+
+                </div>
+
+                <p class="mt-3">
+
+                    Fresh coffee.
+                    Delicious food.
+                    Beautiful moments.
+
+                </p>
+
+            </div>
+
+
+            <div class="col-lg-2">
+
+                <h6>
+                    Explore
+                </h6>
+
+                <a href="#home">Home</a>
+                <a href="#about">About</a>
+                <a href="#menu">Menu</a>
+                <a href="#offers">Offers</a>
+                <a href="#contact">Contact</a>
+
+            </div>
+
+
+            <div class="col-lg-2">
+
+                <h6>
+                    Account
+                </h6>
+
+                <a href="#login">Login</a>
+                <a href="#register">Register</a>
+
+
+            </div>
+
+
+            <div class="col-lg-3">
+
+                <h6>
+                    Follow Us
+                </h6>
+
+                <div class="d-flex gap-3">
+
+                    <a href="#">
+                        <i class="bi bi-instagram fs-5"></i>
+                    </a>
+
+                    <a href="#">
+                        <i class="bi bi-facebook fs-5"></i>
+                    </a>
+
+                    <a href="#">
+                        <i class="bi bi-whatsapp fs-5"></i>
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <hr style="border-color:#342721; margin-top:40px;">
+
+
+        <div class="text-center">
+
+            <small style="color:#665b55;">
+
+                © 2026 BCDC Café |
+                Cafe Management System
+
+            </small>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+
+<!-- BACK TO TOP -->
+
+<button class="top-btn"
+        id="topButton"
+        onclick="window.scrollTo({top:0,behavior:'smooth'})">
+
+    <i class="bi bi-arrow-up"></i>
+
+</button>
+
+
+
+<!-- Bootstrap JS -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+<script>
+
+    /* =========================
+       CART
+    ========================= */
+
+    let cartCount = 0;
+
+    function addToCart(foodName) {
+
+        cartCount++;
+
+        document.getElementById("cartCount").innerText = cartCount;
+
+        alert(foodName + " added to your cart! 🛒");
+
+    }
+
+
+    /* =========================
+       FAVOURITE
+    ========================= */
+
+    function favourite(button) {
+
+        const icon = button.querySelector("i");
+
+        if (icon.classList.contains("bi-heart")) {
+
+            icon.classList.remove("bi-heart");
+
+            icon.classList.add("bi-heart-fill");
+
+            button.style.background = "#c77b42";
+
+            button.style.color = "white";
+
+        }
+
+        else {
+
+            icon.classList.remove("bi-heart-fill");
+
+            icon.classList.add("bi-heart");
+
+            button.style.background = "rgba(255,255,255,.9)";
+
+            button.style.color = "#9a5b37";
+
+        }
+
+    }
+
+
+    /* =========================
+       MENU FILTER
+    ========================= */
+
+    function filterFood(category, button) {
+
+        const buttons =
+            document.querySelectorAll(".category-btn");
+
+        buttons.forEach(function(btn) {
+
+            btn.classList.remove("active");
+
+        });
+
+        button.classList.add("active");
+
+
+        const foods =
+            document.querySelectorAll(".food-item");
+
+
+        foods.forEach(function(food) {
+
+            if (
+                category === "all" ||
+                food.dataset.category === category
+            ) {
+
+                food.style.display = "block";
+
+            }
+
+            else {
+
+                food.style.display = "none";
+
+            }
+
+        });
+
+    }
+
+
+    /* =========================
+       BACK TO TOP
+    ========================= */
+
+    window.addEventListener("scroll", function() {
+
+        const button =
+            document.getElementById("topButton");
+
+        if (window.scrollY > 400) {
+
+            button.style.display = "block";
+
+        }
+
+        else {
+
+            button.style.display = "none";
+
+        }
+
+    });
+
+</script>
+
+
+</body>
+
+</html>

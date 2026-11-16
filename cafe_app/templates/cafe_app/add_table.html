@@ -1,0 +1,311 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BCDC Café - Add Table</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+          rel="stylesheet">
+
+    <style>
+
+        body {
+            margin: 0;
+            background: #f6f7fb;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Main Content */
+        .main-content {
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        /* Page Header */
+        .page-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .page-header .icon {
+            width: 65px;
+            height: 65px;
+            margin: 0 auto 15px;
+            background: #f4e5d7;
+            color: #3b2418;
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 30px;
+        }
+
+        .page-header h2 {
+            color: #3b2418;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .page-header p {
+            color: #777;
+            margin: 0;
+        }
+
+        /* Form Card */
+        .form-container {
+            max-width: 600px;
+            margin: auto;
+
+            background: #ffffff;
+            padding: 35px;
+
+            border-radius: 16px;
+
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Labels */
+        .form-label {
+            font-weight: 600;
+            color: #3b2418;
+            margin-bottom: 8px;
+        }
+
+        /* Inputs */
+        .form-control,
+        .form-select {
+            height: 48px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px 14px;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #d99a5b;
+            box-shadow: 0 0 0 0.2rem rgba(217, 154, 91, 0.15);
+        }
+
+        /* Input Icons */
+        .input-group-text {
+            background: #f8f1eb;
+            border: 1px solid #ddd;
+            color: #6b4226;
+        }
+
+        /* Message */
+        .message {
+            background: #ffe5e5;
+            color: #c62828;
+
+            padding: 12px 15px;
+            border-radius: 8px;
+
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+
+            margin-bottom: 20px;
+        }
+
+        /* Button */
+        .btn-add {
+            width: 100%;
+            height: 48px;
+
+            background: #3b2418;
+            color: white;
+
+            border: none;
+            border-radius: 8px;
+
+            font-weight: 600;
+            font-size: 16px;
+
+            transition: 0.3s;
+        }
+
+        .btn-add:hover {
+            background: #5a3524;
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        /* Back Button */
+        .back-btn {
+            display: block;
+            text-align: center;
+
+            margin-top: 15px;
+
+            color: #6b4226;
+            text-decoration: none;
+
+            font-size: 14px;
+        }
+
+        .back-btn:hover {
+            color: #3b2418;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            color: #888;
+            font-size: 13px;
+            margin-top: 30px;
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+    <!-- Admin Navbar -->
+
+{% include 'cafe_app/admin_nav.html' %}
+
+
+    <!-- Main Content -->
+    <div class="main-content">
+
+        <!-- Page Header -->
+        <div class="page-header">
+
+            <div class="icon">
+                <i class="bi bi-grid-3x3-gap-fill"></i>
+            </div>
+
+            <h2>Add Table</h2>
+
+            <p>
+                Add a new table to your café
+            </p>
+
+        </div>
+
+
+        <!-- Form -->
+        <div class="form-container">
+
+            {% if msg %}
+                <div class="message">
+                    <i class="bi bi-exclamation-circle"></i>
+                    {{ msg }}
+                </div>
+            {% endif %}
+
+
+            <form method="post">
+
+                {% csrf_token %}
+
+
+                <!-- Table Name -->
+                <div class="mb-4">
+
+                    <label for="tableName" class="form-label">
+                        Table Name
+                    </label>
+
+                    <div class="input-group">
+
+                        <span class="input-group-text">
+                            <i class="bi bi-table"></i>
+                        </span>
+
+                        <input
+                            type="text"
+                            id="tableName"
+                            name="t1"
+                            required
+                            class="form-control"
+                            placeholder="Enter table name"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- Item Type -->
+                <div class="mb-4">
+
+                    <label for="itemType" class="form-label">
+                        Table Type
+                    </label>
+
+                    <div class="input-group">
+
+                        <span class="input-group-text">
+                            <i class="bi bi-building"></i>
+                        </span>
+
+                        <select
+                            id="itemType"
+                            name="t2"
+                            class="form-select"
+                            required
+                        >
+
+                            <option value="A/C">
+                                A/C
+                            </option>
+
+                            <option value="Non A/C">
+                                Non A/C
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Submit -->
+                <button type="submit" class="btn-add">
+                    <i class="bi bi-plus-circle"></i>
+                    Add Table
+                </button>
+
+
+                <!-- Back -->
+                <a href="{% url 'admin_home' %}" class="back-btn">
+                    <i class="bi bi-arrow-left"></i>
+                    Back to Dashboard
+                </a>
+
+            </form>
+
+        </div>
+
+
+        <!-- Footer -->
+        <div class="footer">
+            © 2026 BCDC Café | Admin Panel
+        </div>
+
+    </div>
+
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>

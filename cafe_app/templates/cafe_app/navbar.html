@@ -1,0 +1,819 @@
+<html>
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>BCDC Café Navbar</title>
+
+
+    <style>
+
+        /* =====================================================
+           RESET
+        ===================================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #ffffff;
+        }
+
+
+        /* =====================================================
+           NAVBAR
+        ===================================================== */
+
+        .navbar {
+            width: 100%;
+
+            min-height: 78px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            background-color: #2b201d;
+
+            padding: 18px 40px;
+
+            color: #ffffff;
+
+            gap: 20px;
+
+            position: relative;
+
+            z-index: 9999;
+        }
+
+
+        /* =====================================================
+           BRAND
+        ===================================================== */
+
+        .brand {
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            white-space: nowrap;
+        }
+
+
+        .brand .logo {
+            font-size: 28px;
+
+            color: #cfa9c9;
+        }
+
+
+        .brand .bcdc {
+            color: #ffffff;
+
+            font-family: Georgia, 'Times New Roman', serif;
+
+            font-size: 27px;
+
+            font-weight: 700;
+        }
+
+
+        .brand .cafe {
+            color: #e08a3c;
+
+            font-family: Georgia, 'Times New Roman', serif;
+
+            font-size: 27px;
+
+            font-style: italic;
+
+            font-weight: 700;
+        }
+
+
+        /* =====================================================
+           MAIN NAVIGATION
+        ===================================================== */
+
+        .nav-links {
+            display: flex;
+
+            align-items: center;
+
+            gap: 34px;
+
+            list-style: none;
+
+            flex-wrap: wrap;
+        }
+
+
+        .nav-links li a {
+            color: #f2f2f2;
+
+            text-decoration: none;
+
+            font-size: 16px;
+
+            font-weight: 400;
+
+            transition: color 0.3s ease;
+        }
+
+
+        .nav-links li a:hover {
+            color: #e08a3c;
+        }
+
+
+        /* =====================================================
+           RIGHT SECTION
+        ===================================================== */
+
+        .right-section {
+            display: flex;
+
+            align-items: center;
+
+            gap: 22px;
+
+            white-space: nowrap;
+        }
+
+
+        /* =====================================================
+           CART
+        ===================================================== */
+
+        .cart {
+            position: relative;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            width: 25px;
+
+            height: 25px;
+
+            cursor: pointer;
+        }
+
+
+        .cart svg {
+            width: 22px;
+
+            height: 22px;
+
+            fill: #ffffff;
+
+            transition: fill 0.3s ease;
+        }
+
+
+        .cart:hover svg {
+            fill: #e08a3c;
+        }
+
+
+        /* Cart badge */
+
+        .cart .badge {
+            position: absolute;
+
+            top: -8px;
+
+            right: -8px;
+
+            width: 16px;
+
+            height: 16px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background: #e08a3c;
+
+            color: #ffffff;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            border-radius: 50%;
+        }
+
+
+        /* =====================================================
+           DROPDOWN CONTAINER
+        ===================================================== */
+
+        .dropdown {
+            position: relative;
+        }
+
+
+        /* =====================================================
+           DROPDOWN BUTTON
+        ===================================================== */
+
+        .dropdown-btn {
+            display: flex;
+
+            align-items: center;
+
+            gap: 5px;
+
+            background: transparent;
+
+            border: none;
+
+            outline: none;
+
+            color: #ffffff;
+
+            font-family: 'Segoe UI', Arial, sans-serif;
+
+            font-size: 15px;
+
+            font-weight: 600;
+
+            letter-spacing: 0.3px;
+
+            cursor: pointer;
+
+            padding: 8px 0;
+
+            transition: color 0.3s ease;
+        }
+
+
+        .dropdown-btn:hover {
+            color: #e08a3c;
+        }
+
+
+        /* Arrow */
+
+        .arrow {
+            font-size: 11px;
+
+            color: #e08a3c;
+
+            transition: transform 0.3s ease;
+        }
+
+
+        /* Rotate arrow when active */
+
+        .dropdown-btn.active .arrow {
+            transform: rotate(180deg);
+        }
+
+
+        /* =====================================================
+           DROPDOWN MENU
+        ===================================================== */
+
+        .dropdown-menu {
+            position: absolute;
+
+            top: calc(100% + 10px);
+
+            right: 0;
+
+            width: 190px;
+
+            background: #ffffff;
+
+            border-radius: 8px;
+
+            padding: 7px 0;
+
+            margin: 0;
+
+            list-style: none;
+
+            box-shadow:
+                0 8px 25px rgba(0, 0, 0, 0.25);
+
+            opacity: 0;
+
+            visibility: hidden;
+
+            transform: translateY(-8px);
+
+            transition:
+                opacity 0.2s ease,
+                transform 0.2s ease,
+                visibility 0.2s ease;
+
+            z-index: 10000;
+        }
+
+
+        /* =====================================================
+           SHOW DROPDOWN
+        ===================================================== */
+
+        .dropdown-menu.show {
+            opacity: 1;
+
+            visibility: visible;
+
+            transform: translateY(0);
+        }
+
+
+        /* =====================================================
+           DROPDOWN ITEMS
+        ===================================================== */
+
+        .dropdown-menu li {
+            width: 100%;
+        }
+
+
+        .dropdown-menu li a {
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            width: 100%;
+
+            padding: 12px 18px;
+
+            color: #2b201d;
+
+            background: #ffffff;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            font-weight: 500;
+
+            transition:
+                background 0.2s ease,
+                color 0.2s ease;
+        }
+
+
+        .dropdown-menu li a:hover {
+            background: #f5ebe6;
+
+            color: #e08a3c;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE - TABLET
+        ===================================================== */
+
+        @media (max-width: 1000px) {
+
+            .navbar {
+                padding: 16px 25px;
+            }
+
+
+            .nav-links {
+                gap: 20px;
+            }
+
+
+            .right-section {
+                gap: 16px;
+            }
+
+        }
+
+
+        /* =====================================================
+           RESPONSIVE - MOBILE
+        ===================================================== */
+
+        @media (max-width: 750px) {
+
+            .navbar {
+                flex-direction: column;
+
+                justify-content: center;
+
+                padding: 20px;
+            }
+
+
+            .nav-links {
+                justify-content: center;
+
+                gap: 20px;
+            }
+
+
+            .right-section {
+                justify-content: center;
+
+                gap: 18px;
+            }
+
+        }
+
+
+        /* =====================================================
+           SMALL MOBILE
+        ===================================================== */
+
+        @media (max-width: 480px) {
+
+            .brand .bcdc,
+            .brand .cafe {
+                font-size: 23px;
+            }
+
+
+            .brand .logo {
+                font-size: 24px;
+            }
+
+
+            .nav-links {
+                gap: 14px;
+            }
+
+
+            .nav-links li a {
+                font-size: 14px;
+            }
+
+
+            .right-section {
+                gap: 14px;
+            }
+
+
+            .dropdown-menu {
+                right: 50%;
+
+                transform: translate(50%, -8px);
+            }
+
+
+            .dropdown-menu.show {
+                transform: translate(50%, 0);
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     NAVBAR
+========================================================= -->
+
+<nav class="navbar">
+
+
+    <!-- =====================================================
+         BRAND
+    ====================================================== -->
+
+    <div class="brand">
+
+        <span class="logo">☕</span>
+
+        <span class="bcdc">
+            BCDC
+        </span>
+
+        <span class="cafe">
+            Café
+        </span>
+
+    </div>
+
+
+    <!-- =====================================================
+         MAIN NAVIGATION
+    ====================================================== -->
+
+    <ul class="nav-links">
+
+        <li>
+            <a href="{% url 'home' %}">
+                Home
+            </a>
+        </li>
+
+
+        <li>
+            <a href="{% url 'about' %}">
+                About
+            </a>
+        </li>
+
+
+        <li>
+            <a href="{% url 'menu' %}">
+                Menu
+            </a>
+        </li>
+
+
+        <li>
+            <a href="{% url 'offers' %}">
+                Offers
+            </a>
+        </li>
+
+
+        <li>
+            <a href="{% url 'contact' %}">
+                Contact
+            </a>
+        </li>
+
+    </ul>
+
+
+    <!-- =====================================================
+         RIGHT SECTION
+    ====================================================== -->
+
+    <div class="right-section">
+
+
+       
+        <!-- =================================================
+             LOGIN DROPDOWN
+        ================================================== -->
+
+        <div class="dropdown">
+
+
+            <button
+                type="button"
+                class="dropdown-btn"
+                id="loginButton">
+
+                LOGIN
+
+                <span class="arrow">
+                    ▾
+                </span>
+
+            </button>
+
+
+            <ul
+                class="dropdown-menu"
+                id="loginMenu">
+
+
+                <li>
+
+                    <a href="{% url 'userlogin' %}">
+
+                        👤
+
+                        <span>
+                            User Login
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <li>
+
+                    <a href="{% url 'admin_login' %}">
+
+                        🔐
+
+                        <span>
+                            Admin Login
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+            </ul>
+
+        </div>
+
+
+        <!-- =================================================
+             REGISTER DROPDOWN
+        ================================================== -->
+
+        <div class="dropdown">
+
+
+            <button
+                type="button"
+                class="dropdown-btn"
+                id="registerButton">
+
+                REGISTER
+
+                <span class="arrow">
+                    ▾
+                </span>
+
+            </button>
+
+
+            <ul
+                class="dropdown-menu"
+                id="registerMenu">
+
+
+                <li>
+
+                    <a href="{% url 'userregister' %}">
+
+                        👤
+
+                        <span>
+                            User Register
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <li>
+
+                    <a href="{% url 'admin_register' %}">
+
+                        🔐
+
+                        <span>
+                            Admin Register
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+            </ul>
+
+        </div>
+
+
+    </div>
+
+</nav>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script>
+
+
+/* =========================================================
+   GET ELEMENTS
+========================================================= */
+
+const loginButton =
+    document.getElementById("loginButton");
+
+const registerButton =
+    document.getElementById("registerButton");
+
+const loginMenu =
+    document.getElementById("loginMenu");
+
+const registerMenu =
+    document.getElementById("registerMenu");
+
+
+/* =========================================================
+   LOGIN BUTTON
+========================================================= */
+
+loginButton.addEventListener("click", function(event) {
+
+    event.stopPropagation();
+
+
+    /* Close register menu */
+
+    registerMenu.classList.remove("show");
+
+    registerButton.classList.remove("active");
+
+
+    /* Toggle login menu */
+
+    loginMenu.classList.toggle("show");
+
+    loginButton.classList.toggle("active");
+
+});
+
+
+/* =========================================================
+   REGISTER BUTTON
+========================================================= */
+
+registerButton.addEventListener("click", function(event) {
+
+    event.stopPropagation();
+
+
+    /* Close login menu */
+
+    loginMenu.classList.remove("show");
+
+    loginButton.classList.remove("active");
+
+
+    /* Toggle register menu */
+
+    registerMenu.classList.toggle("show");
+
+    registerButton.classList.toggle("active");
+
+});
+
+
+/* =========================================================
+   PREVENT DROPDOWN CLICK FROM CLOSING
+========================================================= */
+
+loginMenu.addEventListener("click", function(event) {
+
+    event.stopPropagation();
+
+});
+
+
+registerMenu.addEventListener("click", function(event) {
+
+    event.stopPropagation();
+
+});
+
+
+/* =========================================================
+   CLOSE WHEN CLICKING OUTSIDE
+========================================================= */
+
+document.addEventListener("click", function() {
+
+    loginMenu.classList.remove("show");
+
+    registerMenu.classList.remove("show");
+
+    loginButton.classList.remove("active");
+
+    registerButton.classList.remove("active");
+
+});
+
+
+</script>
+
+
+</body>
+
+</html>
+

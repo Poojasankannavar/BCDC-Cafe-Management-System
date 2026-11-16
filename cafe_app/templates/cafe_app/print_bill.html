@@ -1,0 +1,232 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BCDC Café | Print Bill</title>
+
+    <style>
+        @page {
+            size: 80mm auto;
+            margin: 0;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            width: 80mm;
+            color: #222;
+            background: #fff;
+        }
+
+        .card {
+            width: 80mm;
+            padding: 5mm;
+            margin: 0 auto;
+            background: #fff;
+        }
+
+        .btn-print {
+            display: block;
+            width: 100%;
+            padding: 9px;
+            margin-bottom: 5mm;
+            border: none;
+            border-radius: 4px;
+            background: #8b4513;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 17px;
+            margin: 0 0 3mm;
+        }
+
+        .heading {
+            text-align: center;
+            font-size: 11px;
+            margin: 0 0 3mm;
+        }
+
+        .bill-info {
+            font-size: 11px;
+            margin: 2mm 0;
+        }
+
+        .bill-info p {
+            margin: 2mm 0;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px dashed #555;
+            margin: 3mm 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 3mm;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 2mm 1mm;
+            font-size: 10px;
+            overflow-wrap: anywhere;
+        }
+
+        th {
+            border-bottom: 1px solid #444;
+            font-size: 9px;
+        }
+
+        .totals {
+            text-align: right;
+            margin-top: 3mm;
+        }
+
+        .totals p {
+            margin: 2mm 0;
+            font-size: 12px;
+        }
+
+        .grand-total {
+            font-size: 18px !important;
+            font-weight: bold;
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 10px;
+            margin-top: 5mm;
+        }
+
+        .error {
+            color: #b00020;
+            font-size: 12px;
+        }
+
+        @media print {
+            .btn-print,
+            .no-print {
+                display: none !important;
+            }
+
+            body, .card {
+                width: 80mm;
+                margin: 0;
+                padding: 3mm;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+
+        {% if error %}
+            <p class="error">{{ error }}</p>
+            <a href="{% url 'admin_home' %}" class="btn-print no-print">
+                Back to Admin Home
+            </a>
+        {% else %}
+
+            <button type="button" class="btn-print no-print"
+                    onclick="handlePrint()">
+                Print Bill
+            </button>
+
+            <h1>BCDC Café</h1>
+            <p class="heading">More Than Coffee, It's An Experience</p>
+
+            {% for comp in company %}
+                <p class="heading">{{ comp.Company_name }}</p>
+                <p class="heading">{{ comp.Company_address }}</p>
+            {% endfor %}
+
+            <hr>
+
+            <div class="bill-info">
+                <p><strong>Bill No:</strong> {{ table_data.items.0.bill_no }}</p>
+                <p><strong>Table:</strong> {{ table_data.table_name }}</p>
+                <p><strong>Date:</strong> {{ table_data.items.0.bill_date|date:"d-m-Y" }}</p>
+                <p><strong>Time:</strong> {{ table_data.items.0.bill_time|time:"h:i A" }}</p>
+                <p><strong>GSTIN:</strong> 29ADEFS1612FF1ZA</p>
+            </div>
+
+            <hr>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Sl.</th>
+                        <th>Item</th>
+                        <th>Qty</th>
+                        <th>Price</th>
+                        <th>GST</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for item in table_data.items %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ item.item_name }}</td>
+                        <td>{{ item.qty }}</td>
+                        <td>{{ item.price|floatformat:2 }}</td>
+                        <td>{{ item.total_gst|floatformat:2 }}</td>
+                        <td>{{ item.total|floatformat:2 }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <hr>
+
+            <div class="totals">
+                <p class="grand-total">
+                    Total: ₹{{ table_data.total|floatformat:2 }}
+                </p>
+            </div>
+
+            <div class="footer">
+                <p>Thank you for visiting BCDC Café!</p>
+                <p>Please visit again.</p>
+            </div>
+
+            <a href="{% url 'admin_home' %}" class="btn-print no-print">
+                Back to Admin Home
+            </a>
+
+        {% endif %}
+    </div>
+
+    <script>
+        function handlePrint() {
+            window.print();
+        }
+
+        // Automatically open the print dialog when a bill is available.
+        window.addEventListener("load", function () {
+            {% if bill_no and not error %}
+                handlePrint();
+            {% endif %}
+        });
+    </script>
+</body>
+</html>

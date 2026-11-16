@@ -1,0 +1,495 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="BCDC Café - Café Management System">
+    <title>BCDC Café | User Home</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: #f7f5f1;
+            color: #30251f;
+        }
+
+        /* Navigation bar */
+        .navbar {
+            background: #2b1b14;
+            padding: 12px 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .navbar-brand {
+            color: #f5c27a !important;
+            font-size: 23px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .brand-icon {
+            margin-right: 8px;
+        }
+
+        .navbar-nav .nav-link {
+            color: #ffffff !important;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 10px 13px !important;
+            transition: color 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover,
+        .navbar-nav .nav-link.active {
+            color: #f5c27a !important;
+        }
+
+        .navbar-toggler {
+            border-color: #f5c27a;
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: none;
+        }
+
+        /* Hero section */
+        .hero-section {
+            position: relative;
+            min-height: 330px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 55px 20px;
+            color: #ffffff;
+            background:
+                linear-gradient(rgba(34, 20, 13, 0.78),
+                                rgba(34, 20, 13, 0.78)),
+                url("{% static 'img/table3.jpg' %}");
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .hero-label {
+            color: #f5c27a;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .hero-title {
+            margin: 15px 0;
+            font-size: clamp(30px, 5vw, 48px);
+            font-weight: 800;
+        }
+
+        .hero-title span {
+            color: #f5c27a;
+        }
+
+        .hero-description {
+            max-width: 650px;
+            margin: 0 auto 25px;
+            color: #f0e8e2;
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        .btn-menu {
+            display: inline-block;
+            padding: 12px 26px;
+            border-radius: 7px;
+            background: #d99039;
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 14px;
+            text-decoration: none;
+            transition: 0.3s ease;
+        }
+
+        .btn-menu:hover {
+            background: #bd7625;
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+
+        /* Main content */
+        .main-container {
+            max-width: 1400px;
+            margin: auto;
+            padding: 40px 25px 55px;
+        }
+
+        .section-heading {
+            margin-bottom: 8px;
+            font-size: 28px;
+            font-weight: 800;
+            color: #38251b;
+        }
+
+        .section-description {
+            margin-bottom: 25px;
+            color: #7a6b61;
+            font-size: 14px;
+        }
+
+        /* Information message */
+        .notice-card {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 30px;
+            padding: 18px 22px;
+            background: #fff9ed;
+            border: 1px solid #f1dfbd;
+            border-left: 5px solid #d99039;
+            border-radius: 10px;
+        }
+
+        .notice-icon {
+            font-size: 25px;
+        }
+
+        .notice-title {
+            margin-bottom: 4px;
+            color: #573b20;
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .notice-text {
+            margin: 0;
+            color: #806d59;
+            font-size: 13px;
+        }
+
+        /* Table cards */
+        .table-card {
+            position: relative;
+            display: flex;
+            min-height: 175px;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 22px 15px;
+            background: #ffffff;
+            border: 1px solid #eae3dc;
+            border-radius: 13px;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 5px 18px rgba(64, 40, 24, 0.06);
+            transition: transform 0.25s ease,
+                        box-shadow 0.25s ease;
+        }
+
+        .table-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(64, 40, 24, 0.13);
+        }
+
+        .table-icon {
+            display: flex;
+            width: 53px;
+            height: 53px;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            background: #f5eee6;
+            border-radius: 50%;
+            font-size: 25px;
+        }
+
+        .table-name {
+            margin-bottom: 7px;
+            color: #39261b;
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .table-category {
+            margin-bottom: 12px;
+            color: #84756a;
+            font-size: 13px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 30px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        /* Selected table */
+        .table-card.selected {
+            background: #e8f7ed;
+            border: 2px solid #249653;
+        }
+
+        .table-card.selected .table-icon {
+            background: #c9efd6;
+        }
+
+        .table-card.selected .table-name {
+            color: #18733d;
+        }
+
+        .table-card.selected .status-badge {
+            background: #198754;
+            color: #ffffff;
+        }
+
+        /* Occupied table */
+        .table-card.stored {
+            background: #fff0ef;
+            border: 2px solid #dc4c4c;
+        }
+
+        .table-card.stored .table-icon {
+            background: #ffdcda;
+        }
+
+        .table-card.stored .table-name {
+            color: #b52c2c;
+        }
+
+        .table-card.stored .status-badge {
+            background: #dc3545;
+            color: #ffffff;
+        }
+
+        /* Available table */
+        .table-card.available .status-badge {
+            background: #e1f5e8;
+            color: #198754;
+        }
+
+        /* Bottom note */
+        .bottom-note {
+            margin-top: 25px;
+            color: #7a6b61;
+            text-align: center;
+            font-size: 13px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 10px 15px;
+            }
+
+            .main-container {
+                padding: 30px 16px 40px;
+            }
+
+            .hero-section {
+                min-height: 300px;
+            }
+
+            .section-heading {
+                font-size: 24px;
+            }
+
+            .table-card {
+                min-height: 160px;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .table-card {
+                padding: 15px 8px;
+            }
+
+            .table-name {
+                font-size: 15px;
+            }
+
+            .table-category {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    {% include 'cafe_app/user_nav.html' %}
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+
+            <p class="hero-label">Welcome to BCDC Café</p>
+
+            <h1 class="hero-title">
+                More Than Coffee,<br>
+                <span>It's An Experience</span>
+            </h1>
+
+            <p class="hero-description">
+                Discover delicious food, freshly prepared meals, and
+                your favourite beverages. Choose your table and enjoy
+                a wonderful dining experience with us.
+            </p>
+
+            <a href="{% url 'user_menu' %}" class="btn-menu">
+                Explore Our Menu &rarr;
+            </a>
+
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-container">
+
+        <!-- Notice -->
+        <div class="notice-card">
+            <div class="notice-icon">ℹ️</div>
+            <div>
+                <h6 class="notice-title">Order Cancellation Policy</h6>
+                <p class="notice-text">
+                    Orders can be canceled within 10 minutes.
+                </p>
+            </div>
+        </div>
+
+        <!-- Table Section -->
+        <div class="d-flex flex-wrap justify-content-between
+                    align-items-center mb-3">
+
+            <div>
+                <h2 class="section-heading">Choose Your Table</h2>
+                <p class="section-description">
+                    Select a table to start placing your order.
+                </p>
+            </div>
+
+            <a href="{% url 'user_menu' %}"
+               class="btn-menu mb-3">
+                View Food Menu &rarr;
+            </a>
+
+        </div>
+
+        <!-- Table Legend -->
+        <div class="d-flex flex-wrap gap-3 mb-4">
+            <span class="status-badge"
+                  style="background:#e1f5e8;color:#198754;">
+                ● Available
+            </span>
+
+            <span class="status-badge"
+                  style="background:#fff0ef;color:#dc3545;">
+                ● Occupied
+            </span>
+
+            <span class="status-badge"
+                  style="background:#e8f7ed;color:#18733d;">
+                ● Selected
+            </span>
+        </div>
+
+        <!-- Dynamic Table Cards -->
+        <div class="row g-4">
+
+            {% for table in tdata %}
+
+                <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+
+                    <div class="table-card
+                        {% if table.status == 'Occupied' %}
+                            stored
+                        {% else %}
+                            available
+                        {% endif %}"
+                        role="button"
+                        tabindex="0"
+                        aria-disabled="{% if table.status == 'Occupied' %}true{% else %}false{% endif %}"
+                        onclick="selectTable('{{ table.table_name|escapejs }}', '{{ table.status|escapejs }}')"
+                        onkeydown="if(event.key === 'Enter' || event.key === ' '){event.preventDefault();selectTable('{{ table.table_name|escapejs }}', '{{ table.status|escapejs }}');}">
+
+                        <div class="table-icon">🪑</div>
+
+                        <h5 class="table-name">
+                            {{ table.table_name }}
+                        </h5>
+
+                        <p class="table-category">
+                            {{ table.table_type }}
+                        </p>
+
+                        {% if table.status == 'Occupied' %}
+
+                            <span class="status-badge">
+                                Occupied
+                            </span>
+
+                        {% else %}
+
+                            <span class="status-badge">
+                                Available
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            {% empty %}
+
+                <div class="col-12">
+                    <div class="alert alert-warning text-center">
+                        No tables are available at the moment.
+                        Please contact the café staff.
+                    </div>
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+        <p class="bottom-note">
+            ☕ Thank you for choosing BCDC Café. We look forward
+            to serving you!
+        </p>
+
+    </main>
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        function selectTable(tableName, status) {
+            if (status === "Occupied") {
+                return;
+            }
+            const url = "{% url 'add_order_user' %}";
+            window.location.href = url + "?table=" +
+                encodeURIComponent(tableName) + "&source=user";
+        }
+    </script>
+
+</body>
+</html>

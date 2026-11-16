@@ -1,0 +1,812 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Table Management | BCDC Café</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+          rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #0b1120;
+            --panel: #131d2e;
+            --card: #192538;
+            --border: #28364c;
+            --text: #f8fafc;
+            --muted: #94a3b8;
+            --blue: #3b82f6;
+            --green: #22c55e;
+            --red: #ef4444;
+            --gold: #f59e0b;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at top right,
+                rgba(59,130,246,.10), transparent 32%),
+                var(--bg);
+        }
+
+        .dashboard {
+            max-width: 1600px;
+            margin: auto;
+            padding: 32px;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 28px;
+        }
+
+        .eyebrow {
+            color: var(--gold);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .page-title {
+            color: #fff;
+            font-size: clamp(25px, 3vw, 34px);
+            font-weight: 800;
+            margin: 0;
+        }
+
+        .page-subtitle {
+            color: var(--muted);
+            font-size: 13px;
+            margin: 10px 0 0;
+        }
+
+        .live-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            background: #142338;
+            border: 1px solid var(--border);
+            border-radius: 30px;
+            padding: 11px 16px;
+            color: #cbd5e1;
+            font-size: 12px;
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--green);
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(34,197,94,.7);
+        }
+
+        /* Summary cards */
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .summary-card {
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            gap: 17px;
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 24px;
+            transition: .25s ease;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-4px);
+            border-color: #475569;
+        }
+
+        .summary-card::after {
+            content: "";
+            position: absolute;
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            right: -35px;
+            top: -35px;
+            background: var(--accent);
+            opacity: .07;
+        }
+
+        .summary-icon {
+            display: grid;
+            place-items: center;
+            width: 56px;
+            height: 56px;
+            border-radius: 15px;
+            flex-shrink: 0;
+            background: var(--icon-bg);
+            color: var(--accent);
+            font-size: 25px;
+        }
+
+        .summary-label {
+            color: var(--muted);
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+
+        .summary-number {
+            font-size: 29px;
+            line-height: 1;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        /* Quick actions */
+
+        .panel {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 24px;
+            margin-bottom: 25px;
+        }
+
+        .section-heading {
+            font-size: 17px;
+            font-weight: 700;
+            color: #fff;
+            margin: 0;
+        }
+
+        .section-description {
+            color: var(--muted);
+            font-size: 12px;
+            margin: 7px 0 0;
+        }
+
+        .action-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            padding: 12px 17px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: #fff;
+            font-size: 12px;
+            font-weight: 700;
+            border: 1px solid transparent;
+            transition: .2s ease;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.12);
+            color: #fff;
+        }
+
+        .btn-primary-custom {
+            background: #1d4ed8;
+            border-color: #2563eb;
+        }
+
+        .btn-green-custom {
+            background: #047857;
+            border-color: #059669;
+        }
+
+        .btn-purple-custom {
+            background: #6d28d9;
+            border-color: #7c3aed;
+        }
+
+        .btn-neutral-custom {
+            background: #263449;
+            border-color: #3b4a60;
+        }
+
+        /* Table list */
+
+        .tables-panel {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 25px;
+        }
+
+        .tables-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 18px;
+            flex-wrap: wrap;
+            margin-bottom: 22px;
+        }
+
+        .search-wrapper {
+            position: relative;
+            width: 290px;
+            max-width: 100%;
+        }
+
+        .search-wrapper i {
+            position: absolute;
+            top: 50%;
+            left: 14px;
+            transform: translateY(-50%);
+            color: var(--muted);
+        }
+
+        .search-box {
+            width: 100%;
+            background: #0b1120;
+            border: 1px solid #334155;
+            border-radius: 10px;
+            padding: 12px 14px 12px 40px;
+            color: #fff;
+            font-size: 12px;
+            outline: none;
+        }
+
+        .search-box:focus {
+            border-color: var(--blue);
+            box-shadow: 0 0 0 3px rgba(59,130,246,.12);
+        }
+
+        .search-box::placeholder {
+            color: #64748b;
+        }
+
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            margin-bottom: 24px;
+        }
+
+        .legend-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #cbd5e1;
+            font-size: 11px;
+        }
+
+        .legend-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+        }
+
+        .dot-available { background: var(--green); }
+        .dot-occupied { background: var(--red); }
+        .dot-selected { background: var(--blue); }
+
+        .tables-grid {
+            display: grid;
+            grid-template-columns: repeat(6, minmax(0, 1fr));
+            gap: 17px;
+        }
+
+        .table-card {
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+            padding: 23px 15px 20px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: .25s ease;
+        }
+
+        .table-card::before {
+            content: "";
+            position: absolute;
+            height: 4px;
+            left: 0;
+            right: 0;
+            top: 0;
+            background: var(--green);
+        }
+
+        .table-card.available {
+            border-color: rgba(34,197,94,.28);
+        }
+
+        .table-card.occupied {
+            border-color: rgba(239,68,68,.35);
+        }
+
+        .table-card.occupied::before {
+            background: var(--red);
+        }
+
+        .table-card.selected {
+            border: 2px solid var(--blue);
+            box-shadow: 0 0 0 3px rgba(59,130,246,.12);
+        }
+
+        .table-card.selected::before {
+            background: var(--blue);
+        }
+
+        .table-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0,0,0,.2);
+        }
+
+        .table-icon {
+            display: grid;
+            place-items: center;
+            width: 55px;
+            height: 55px;
+            margin: 3px auto 15px;
+            border-radius: 16px;
+            background: rgba(34,197,94,.12);
+            color: #4ade80;
+            font-size: 25px;
+        }
+
+        .occupied .table-icon {
+            background: rgba(239,68,68,.12);
+            color: #f87171;
+        }
+
+        .selected .table-icon {
+            background: rgba(59,130,246,.15);
+            color: #93c5fd;
+        }
+
+        .table-name {
+            font-size: 15px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 7px;
+            overflow-wrap: anywhere;
+        }
+
+        .table-category {
+            color: var(--muted);
+            font-size: 11px;
+            margin-bottom: 14px;
+            overflow-wrap: anywhere;
+        }
+
+        .status-badge {
+            display: inline-block;
+            border-radius: 30px;
+            padding: 6px 11px;
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: .6px;
+            text-transform: uppercase;
+        }
+
+        .status-available {
+            background: rgba(34,197,94,.12);
+            color: #4ade80;
+        }
+
+        .status-occupied {
+            background: rgba(239,68,68,.12);
+            color: #f87171;
+        }
+
+        .status-selected {
+            background: rgba(59,130,246,.15);
+            color: #93c5fd;
+        }
+
+        .empty-state,
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 45px 15px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .empty-state i {
+            display: block;
+            font-size: 35px;
+            margin-bottom: 12px;
+            color: #64748b;
+        }
+
+        .no-results {
+            display: none;
+        }
+
+        .footer-note {
+            text-align: center;
+            color: #64748b;
+            font-size: 11px;
+            padding: 25px 0 5px;
+        }
+
+        @media (max-width: 1100px) {
+            .tables-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard {
+                padding: 22px 15px;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .tables-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 12px;
+            }
+
+            .panel,
+            .tables-panel {
+                padding: 18px;
+            }
+
+            .search-wrapper {
+                width: 100%;
+            }
+
+            .action-buttons {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .action-btn {
+                padding: 12px 8px;
+                font-size: 11px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .tables-grid,
+            .action-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+{% include 'cafe_app/admin_nav.html' %}
+
+<main class="dashboard">
+
+    <!-- Page heading -->
+    <header class="page-header">
+        <div>
+            <div class="eyebrow">BCDC Café / Administration</div>
+            <h1 class="page-title">Table Management</h1>
+            <p class="page-subtitle">
+                Monitor table availability and manage restaurant orders.
+            </p>
+        </div>
+
+        <div class="live-status">
+            <span class="live-dot"></span>
+            Table Overview
+        </div>
+    </header>
+
+    <!-- Summary cards -->
+    <section class="summary-grid">
+
+        <div class="summary-card"
+             style="--accent:#60a5fa;--icon-bg:rgba(59,130,246,.14)">
+            <div class="summary-icon">
+                <i class="bi bi-grid-3x3-gap"></i>
+            </div>
+            <div>
+                <div class="summary-label">Total Tables</div>
+                <div class="summary-number" id="totalTables">0</div>
+            </div>
+        </div>
+
+        <div class="summary-card"
+             style="--accent:#4ade80;--icon-bg:rgba(34,197,94,.13)">
+            <div class="summary-icon">
+                <i class="bi bi-check-circle"></i>
+            </div>
+            <div>
+                <div class="summary-label">Available Tables</div>
+                <div class="summary-number" id="availableTables">0</div>
+            </div>
+        </div>
+
+        <div class="summary-card"
+             style="--accent:#f87171;--icon-bg:rgba(239,68,68,.13)">
+            <div class="summary-icon">
+                <i class="bi bi-people"></i>
+            </div>
+            <div>
+                <div class="summary-label">Occupied Tables</div>
+                <div class="summary-number" id="occupiedTables">0</div>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Quick actions -->
+    <section class="panel">
+        <h2 class="section-heading">Quick Actions</h2>
+        <p class="section-description">
+            Use these shortcuts to manage your café efficiently.
+        </p>
+
+        <div class="action-buttons">
+            <a href="{% url 'add_table' %}"
+               class="action-btn btn-primary-custom">
+                <i class="bi bi-plus-circle"></i>
+                Add Table
+            </a>
+
+            <a href="{% url 'add_items' %}"
+               class="action-btn btn-green-custom">
+                <i class="bi bi-cup-hot"></i>
+                Manage Items
+            </a>
+
+            <a href="{% url 'menu' %}"
+               class="action-btn btn-neutral-custom">
+                <i class="bi bi-card-list"></i>
+                Browse Menu
+            </a>
+
+            <a href="{% url 'add_expenses' %}"
+               class="action-btn btn-purple-custom">
+                <i class="bi bi-wallet2"></i>
+                Manage Expenses
+            </a>
+
+            <button type="button"
+                    class="action-btn btn-neutral-custom"
+                    onclick="window.print()">
+                <i class="bi bi-printer"></i>
+                Print Overview
+            </button>
+        </div>
+    </section>
+
+    <!-- Restaurant tables -->
+    <section class="tables-panel" id="tables-panel">
+
+        <div class="tables-header">
+            <div>
+                <h2 class="section-heading">Restaurant Tables</h2>
+                <p class="section-description">
+                    Select a table to open its order page.
+                </p>
+            </div>
+
+            <div class="search-wrapper">
+                <i class="bi bi-search"></i>
+                <input type="text"
+                       class="search-box"
+                       id="tableSearch"
+                       placeholder="Search table or category..."
+                       aria-label="Search tables">
+            </div>
+        </div>
+
+        <div class="legend">
+            <div class="legend-item">
+                <span class="legend-dot dot-available"></span>
+                Available
+            </div>
+            <div class="legend-item">
+                <span class="legend-dot dot-occupied"></span>
+                Occupied
+            </div>
+            <div class="legend-item">
+                <span class="legend-dot dot-selected"></span>
+                Selected
+            </div>
+        </div>
+
+        <div class="tables-grid" id="tablesGrid">
+
+            {% for table in tdata %}
+
+            <div class="table-card
+                {% if table.status == 'Occupied' %}occupied
+                {% else %}available{% endif %}"
+                data-table="{{ table.table_name|escape }}"
+                data-category="{{ table.table_type|escape }}"
+                tabindex="0"
+                role="button"
+                aria-label="Select {{ table.table_name|escape }}"
+                onclick="selectTable(this)"
+                onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectTable(this)}">
+
+                <div class="table-icon">
+                    <i class="bi bi-grid"></i>
+                </div>
+
+                <div class="table-name">{{ table.table_name }}</div>
+                <div class="table-category">{{ table.table_type }}</div>
+
+                {% if table.status == 'Occupied' %}
+                    <span class="status-badge status-occupied">Occupied</span>
+                {% else %}
+                    <span class="status-badge status-available">Available</span>
+                {% endif %}
+
+            </div>
+
+            {% empty %}
+
+            <div class="empty-state">
+                <i class="bi bi-grid-3x3-gap"></i>
+                <strong>No tables available</strong>
+                <p class="mt-2 mb-3">Add your first restaurant table to get started.</p>
+                <a href="{% url 'add_table' %}"
+                   class="action-btn btn-primary-custom">
+                    <i class="bi bi-plus-circle"></i>
+                    Add First Table
+                </a>
+            </div>
+
+            {% endfor %}
+
+            <div class="no-results" id="noResults">
+                <i class="bi bi-search fs-3 d-block mb-2"></i>
+                No matching tables found.
+            </div>
+
+        </div>
+    </section>
+
+    <section class="panel" id="open-orders" style="margin-top:24px;">
+        <h2 class="section-heading">Open Orders</h2>
+        <p class="section-description">Bills placed by users that still need to be printed or settled.</p>
+
+        {% if open_orders %}
+        <div style="overflow-x:auto;">
+            <table style="width:100%;border-collapse:collapse;text-align:left;">
+                <thead>
+                    <tr>
+                        <th style="padding:12px;border-bottom:1px solid #ddd;">Bill</th>
+                        <th style="padding:12px;border-bottom:1px solid #ddd;">Table</th>
+                        <th style="padding:12px;border-bottom:1px solid #ddd;">Date</th>
+                        <th style="padding:12px;border-bottom:1px solid #ddd;">Items</th>
+                        <th style="padding:12px;border-bottom:1px solid #ddd;">Total</th>
+                        <th style="padding:12px;border-bottom:1px solid #ddd;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in open_orders %}
+                    <tr>
+                        <td style="padding:12px;border-bottom:1px solid #eee;">{{ order.bill_no }}</td>
+                        <td style="padding:12px;border-bottom:1px solid #eee;">{{ order.table_name }}</td>
+                        <td style="padding:12px;border-bottom:1px solid #eee;">{{ order.bill_date|date:"d M Y" }}</td>
+                        <td style="padding:12px;border-bottom:1px solid #eee;">
+                            {% for item in order.items %}{{ item.item_name }} × {{ item.qty }}{% if not forloop.last %}, {% endif %}{% endfor %}
+                        </td>
+                        <td style="padding:12px;border-bottom:1px solid #eee;">₹{{ order.total|floatformat:2 }}</td>
+                        <td style="padding:12px;border-bottom:1px solid #eee;white-space:nowrap;">
+                            <a class="action-btn btn-primary-custom" target="_blank" rel="noopener"
+                               href="{% url 'print_table' %}?bill_no={{ order.bill_no|urlencode }}">Print bill</a>
+                            <form method="post" action="{% url 'settle_bill' bill_no=order.bill_no %}" style="display:inline;">
+                                {% csrf_token %}
+                                <button class="action-btn btn-green-custom" type="submit">Settle</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="section-description" style="margin-bottom:0;">There are no open orders.</p>
+        {% endif %}
+    </section>
+
+    <footer class="footer-note">
+        © {% now "Y" %} BCDC Café · Table Management Dashboard
+    </footer>
+
+</main>
+
+<script>
+    // Update dashboard counts from the rendered table cards.
+    function updateTableCounts() {
+        const cards = document.querySelectorAll(".table-card");
+        const occupied = document.querySelectorAll(
+            ".table-card.occupied"
+        ).length;
+
+        document.getElementById("totalTables").textContent = cards.length;
+        document.getElementById("occupiedTables").textContent = occupied;
+        document.getElementById("availableTables").textContent =
+            cards.length - occupied;
+    }
+
+    // Open the order page for the selected table.
+    function selectTable(card) {
+        const tableName = card.dataset.table;
+
+        if (!tableName) {
+            return;
+        }
+
+        const url = "{% url 'add_order_user' %}" +
+            "?table=" + encodeURIComponent(tableName) +
+            "&source=admin";
+
+        window.location.href = url;
+    }
+
+    // Search by table name or category.
+    document.getElementById("tableSearch").addEventListener(
+        "input", function () {
+            const searchText = this.value.trim().toLowerCase();
+            const cards = document.querySelectorAll(".table-card");
+            let visibleCount = 0;
+
+            cards.forEach(function (card) {
+                const tableName =
+                    (card.dataset.table || "").toLowerCase();
+                const category =
+                    (card.dataset.category || "").toLowerCase();
+
+                const matches =
+                    tableName.includes(searchText) ||
+                    category.includes(searchText);
+
+                card.style.display = matches ? "" : "none";
+
+                if (matches) {
+                    visibleCount++;
+                }
+            });
+
+            document.getElementById("noResults").style.display =
+                visibleCount === 0 ? "block" : "none";
+        }
+    );
+
+    updateTableCounts();
+</script>
+
+</body>
+</html>

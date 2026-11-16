@@ -1,0 +1,962 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Offers - BCDC Café</title>
+
+
+    <!-- =====================================================
+         BOOTSTRAP
+    ====================================================== -->
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+
+    <!-- =====================================================
+         BOOTSTRAP ICONS
+    ====================================================== -->
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+
+    <style>
+
+        /* =====================================================
+           BODY
+        ====================================================== */
+
+        body {
+            background: #fffaf5;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        /* =====================================================
+           OFFERS SECTION
+        ====================================================== */
+
+        .offers-section {
+            padding: 70px 6%;
+        }
+
+
+        /* =====================================================
+           OFFERS TITLE
+        ====================================================== */
+
+        .offers-title {
+            text-align: center;
+
+            color: #3b1f16;
+
+            font-size: 42px;
+
+            font-weight: bold;
+
+            margin-bottom: 15px;
+        }
+
+
+        .offers-title span {
+            color: #e67e22;
+        }
+
+
+        .offers-description {
+            text-align: center;
+
+            color: #777;
+
+            max-width: 600px;
+
+            margin: 0 auto 50px;
+
+            font-size: 16px;
+
+            line-height: 1.7;
+        }
+
+
+        /* =====================================================
+           OFFER CARD
+        ====================================================== */
+
+        .offer-card {
+            position: relative;
+
+            background: #ffffff;
+
+            border-radius: 20px;
+
+            padding: 40px 30px;
+
+            text-align: center;
+
+            box-shadow:
+                0 8px 25px rgba(0, 0, 0, 0.12);
+
+            height: 100%;
+
+            transition:
+                transform 0.3s ease,
+                box-shadow 0.3s ease;
+
+            border-top: 6px solid #e67e22;
+
+            overflow: hidden;
+        }
+
+
+        .offer-card:hover {
+            transform: translateY(-10px);
+
+            box-shadow:
+                0 15px 35px rgba(0, 0, 0, 0.16);
+        }
+
+
+        /* =====================================================
+           OFFER ICON
+        ====================================================== */
+
+        .offer-icon {
+            width: 75px;
+
+            height: 75px;
+
+            margin: 0 auto 22px;
+
+            border-radius: 50%;
+
+            background: #fff1e4;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 38px;
+
+            transition: transform 0.3s ease;
+        }
+
+
+        .offer-card:hover .offer-icon {
+            transform: scale(1.1);
+        }
+
+
+        /* =====================================================
+           OFFER TITLE
+        ====================================================== */
+
+        .offer-card h3 {
+            color: #3b1f16;
+
+            font-size: 25px;
+
+            font-weight: bold;
+
+            margin-bottom: 10px;
+        }
+
+
+        /* =====================================================
+           DISCOUNT
+        ====================================================== */
+
+        .discount {
+            color: #e67e22;
+
+            font-size: 38px;
+
+            font-weight: bold;
+
+            margin: 15px 0;
+        }
+
+
+        /* =====================================================
+           OFFER DESCRIPTION
+        ====================================================== */
+
+        .offer-card p {
+            color: #666;
+
+            line-height: 1.7;
+
+            font-size: 15px;
+
+            min-height: 80px;
+
+            margin-bottom: 18px;
+        }
+
+
+        /* =====================================================
+           OFFER BUTTON
+        ====================================================== */
+
+        .offer-btn {
+            background: #3b1f16;
+
+            color: #ffffff;
+
+            border: none;
+
+            padding: 12px 27px;
+
+            border-radius: 25px;
+
+            margin-top: 10px;
+
+            font-size: 15px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition: all 0.25s ease;
+        }
+
+
+        .offer-btn:hover {
+            background: #e67e22;
+
+            color: #ffffff;
+
+            transform: translateY(-2px);
+        }
+
+
+        .offer-btn i {
+            margin-right: 6px;
+        }
+
+
+        /* =====================================================
+           SPECIAL OFFER BADGE
+        ====================================================== */
+
+        .offer-badge {
+            position: absolute;
+
+            top: 18px;
+
+            right: -35px;
+
+            background: #cc7a3c;
+
+            color: #ffffff;
+
+            padding: 7px 40px;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+            transform: rotate(45deg);
+
+            letter-spacing: .5px;
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ====================================================== */
+
+        .cafe-footer {
+            background: #24120d;
+
+            color: #ffffff;
+
+            padding: 55px 8% 20px;
+
+            margin-top: 30px;
+        }
+
+
+        /* =====================================================
+           FOOTER LOGO
+        ====================================================== */
+
+        .footer-logo {
+            color: #ffffff;
+
+            font-size: 28px;
+
+            font-weight: bold;
+
+            margin-bottom: 10px;
+        }
+
+
+        .footer-logo span {
+            color: #e67e22;
+        }
+
+
+        .footer-description {
+            color: #c8bdb7;
+
+            line-height: 1.7;
+
+            max-width: 350px;
+
+            margin-bottom: 0;
+        }
+
+
+        /* =====================================================
+           FOOTER TITLES
+        ====================================================== */
+
+        .footer-title {
+            color: #ffc107;
+
+            font-size: 17px;
+
+            font-weight: 600;
+
+            margin-bottom: 18px;
+        }
+
+
+        /* =====================================================
+           FOOTER LINKS
+        ====================================================== */
+
+        .footer-links {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 10px;
+        }
+
+
+        .footer-links a {
+            color: #c8bdb7;
+
+            text-decoration: none;
+
+            font-size: 15px;
+
+            transition: all 0.25s ease;
+        }
+
+
+        .footer-links a:hover {
+            color: #e67e22;
+
+            padding-left: 4px;
+        }
+
+
+        /* =====================================================
+           SOCIAL LINKS
+        ====================================================== */
+
+        .social-links {
+            display: flex;
+
+            align-items: center;
+
+            gap: 14px;
+        }
+
+
+        .social-links a {
+            width: 40px;
+
+            height: 40px;
+
+            border-radius: 50%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background: #342721;
+
+            color: #ffffff;
+
+            text-decoration: none;
+
+            transition: all 0.25s ease;
+        }
+
+
+        .social-links a:hover {
+            background: #e67e22;
+
+            color: #ffffff;
+
+            transform: translateY(-3px);
+        }
+
+
+        /* =====================================================
+           FOOTER DIVIDER
+        ====================================================== */
+
+        .footer-divider {
+            border: 0;
+
+            border-top: 1px solid #342721;
+
+            margin-top: 45px;
+
+            margin-bottom: 20px;
+        }
+
+
+        /* =====================================================
+           COPYRIGHT
+        ====================================================== */
+
+        .copyright {
+            text-align: center;
+
+            color: #8f827b;
+
+            font-size: 13px;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ====================================================== */
+
+        @media (max-width: 768px) {
+
+            .offers-section {
+                padding: 55px 5%;
+            }
+
+
+            .offers-title {
+                font-size: 34px;
+            }
+
+
+            .offers-description {
+                margin-bottom: 35px;
+            }
+
+
+            .offer-card {
+                padding: 35px 25px;
+            }
+
+        }
+
+
+        @media (max-width: 576px) {
+
+            .offers-title {
+                font-size: 30px;
+            }
+
+
+            .offer-card h3 {
+                font-size: 22px;
+            }
+
+
+            .discount {
+                font-size: 34px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     REUSABLE NAVBAR
+===================================================== -->
+
+{% include 'cafe_app/navbar.html' %}
+
+
+
+<!-- =====================================================
+     OFFERS SECTION
+===================================================== -->
+
+<section class="offers-section">
+
+
+    <div class="container">
+
+
+        <!-- =================================================
+             TITLE
+        ================================================== -->
+
+        <h2 class="offers-title">
+
+            Today's
+            <span>Special Offers</span>
+
+        </h2>
+
+
+        <p class="offers-description">
+
+            Enjoy delicious food and refreshing drinks
+            at special prices. Grab your favourite offer
+            before it ends!
+
+        </p>
+
+
+
+        <!-- =================================================
+             OFFER CARDS
+        ================================================== -->
+
+        <div class="row g-4">
+
+
+
+            <!-- =================================================
+                 MORNING COFFEE
+            ================================================== -->
+
+            <div class="col-lg-4 col-md-6">
+
+
+                <div class="offer-card">
+
+
+                    <div class="offer-badge">
+                        SPECIAL
+                    </div>
+
+
+                    <div class="offer-icon">
+                        ☕
+                    </div>
+
+
+                    <h3>
+                        Morning Coffee
+                    </h3>
+
+
+                    <div class="discount">
+                        20% OFF
+                    </div>
+
+
+                    <p>
+
+                        Start your morning with freshly
+                        prepared aromatic coffee and enjoy
+                        an amazing discount.
+
+                    </p>
+
+
+                    <button
+                        type="button"
+                        class="offer-btn"
+                        onclick="grabOffer('Morning Coffee')">
+
+                        <i class="bi bi-tag-fill"></i>
+
+                        Grab Offer
+
+                    </button>
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 PIZZA COMBO
+            ================================================== -->
+
+            <div class="col-lg-4 col-md-6">
+
+
+                <div class="offer-card">
+
+
+                    <div class="offer-badge">
+                        BEST DEAL
+                    </div>
+
+
+                    <div class="offer-icon">
+                        🍕
+
+                    </div>
+
+
+                    <h3>
+                        Pizza Combo
+                    </h3>
+
+
+                    <div class="discount">
+                        ₹299
+                    </div>
+
+
+                    <p>
+
+                        Enjoy our delicious cheese pizza
+                        with a refreshing drink at a
+                        special combo price.
+
+                    </p>
+
+
+                    <button
+                        type="button"
+                        class="offer-btn"
+                        onclick="grabOffer('Pizza Combo')">
+
+                        <i class="bi bi-tag-fill"></i>
+
+                        Grab Offer
+
+                    </button>
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 DESSERT SPECIAL
+            ================================================== -->
+
+            <div class="col-lg-4 col-md-6">
+
+
+                <div class="offer-card">
+
+
+                    <div class="offer-badge">
+                        LIMITED
+                    </div>
+
+
+                    <div class="offer-icon">
+                        🍨
+                    </div>
+
+
+                    <h3>
+                        Dessert Special
+                    </h3>
+
+
+                    <div class="discount">
+                        15% OFF
+                    </div>
+
+
+                    <p>
+
+                        Complete your meal with our
+                        delicious desserts and enjoy
+                        a special discount.
+
+                    </p>
+
+
+                    <button
+                        type="button"
+                        class="offer-btn"
+                        onclick="grabOffer('Dessert Special')">
+
+                        <i class="bi bi-tag-fill"></i>
+
+                        Grab Offer
+
+                    </button>
+
+
+                </div>
+
+
+            </div>
+
+
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer class="cafe-footer">
+
+
+    <div class="container">
+
+
+        <div class="row g-4">
+
+
+            <!-- =================================================
+                 FOOTER BRAND
+            ================================================== -->
+
+            <div class="col-lg-5 col-md-6">
+
+
+                <div class="footer-logo">
+
+                    ☕ BCDC <span>Café</span>
+
+                </div>
+
+
+                <p class="footer-description">
+
+                    Fresh coffee.
+                    Delicious food.
+                    Beautiful moments.
+
+                </p>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 EXPLORE
+            ================================================== -->
+
+            <div class="col-lg-2 col-md-6">
+
+
+                <h6 class="footer-title">
+
+                    Explore
+
+                </h6>
+
+
+                <div class="footer-links">
+
+
+                    <a href="{% url 'home' %}">
+                        Home
+                    </a>
+
+
+                    <a href="{% url 'about' %}">
+                        About
+                    </a>
+
+
+                    <a href="{% url 'menu' %}">
+                        Menu
+                    </a>
+
+
+                    <a href="{% url 'offers' %}">
+                        Offers
+                    </a>
+
+
+                    <a href="{% url 'contact' %}">
+                        Contact
+                    </a>
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 ACCOUNT
+            ================================================== -->
+
+            <div class="col-lg-2 col-md-6">
+
+
+                <h6 class="footer-title">
+
+                    Account
+
+                </h6>
+
+
+                <div class="footer-links">
+
+
+                    <a href="{% url 'userlogin' %}">
+                        Login
+                    </a>
+
+
+                    <a href="{% url 'userregister' %}">
+                        Register
+                    </a>
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 FOLLOW US
+            ================================================== -->
+
+            <div class="col-lg-3 col-md-6">
+
+
+                <h6 class="footer-title">
+
+                    Follow Us
+
+                </h6>
+
+
+                <div class="social-links">
+
+
+                    <a
+                        href="#"
+                        aria-label="Instagram">
+
+                        <i class="bi bi-instagram"></i>
+
+                    </a>
+
+
+                    <a
+                        href="#"
+                        aria-label="Facebook">
+
+                        <i class="bi bi-facebook"></i>
+
+                    </a>
+
+
+                    <a
+                        href="#"
+                        aria-label="WhatsApp">
+
+                        <i class="bi bi-whatsapp"></i>
+
+                    </a>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             DIVIDER
+        ================================================== -->
+
+        <hr class="footer-divider">
+
+
+
+        <!-- =================================================
+             COPYRIGHT
+        ================================================== -->
+
+        <div class="copyright">
+
+            © 2026 BCDC Café |
+            Cafe Management System
+
+        </div>
+
+
+    </div>
+
+
+</footer>
+
+
+
+<!-- =====================================================
+     BOOTSTRAP JS
+===================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+
+<!-- =====================================================
+     OFFER JAVASCRIPT
+===================================================== -->
+
+<script>
+
+    function grabOffer(offerName) {
+
+        alert(
+            offerName +
+            " selected successfully!"
+        );
+
+    }
+
+</script>
+
+
+</body>
+
+</html>

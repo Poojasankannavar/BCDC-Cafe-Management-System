@@ -1,0 +1,351 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BCDC Café | Add Item</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --brown: #3b2418;
+            --brown-hover: #5a3524;
+            --cream: #f4e5d7;
+            --gold: #e5bd57;
+            --page-bg: #f5f6fb;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            background: var(--page-bg);
+            font-family: Arial, sans-serif;
+            color: #292929;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: var(--brown);
+            min-height: 82px;
+            padding: 12px 30px;
+            box-shadow: 0 5px 16px #0002;
+        }
+
+        .navbar-brand {
+            color: #f5dca0 !important;
+            font-size: 25px;
+            font-weight: 700;
+        }
+
+        .brand-icon { color: var(--gold); }
+
+        .brand-admin {
+            display: block;
+            text-align: center;
+            font-size: 9px;
+            letter-spacing: 5px;
+            color: var(--gold);
+        }
+
+        .navbar-nav { gap: 6px; }
+
+        .navbar .nav-link {
+            color: #fff5ed !important;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 12px 9px !important;
+            white-space: nowrap;
+        }
+
+        .navbar .nav-link i {
+            color: var(--gold);
+            margin-right: 5px;
+        }
+
+        .navbar .nav-link:hover { color: var(--gold) !important; }
+
+        .navbar .logout-link,
+        .navbar .logout-link i { color: #f08078 !important; }
+
+        .dropdown-menu {
+            border: 0;
+            border-radius: 10px;
+            padding: 8px;
+            box-shadow: 0 8px 25px #0002;
+        }
+
+        .dropdown-item {
+            padding: 9px 12px;
+            border-radius: 6px;
+        }
+
+        .dropdown-item:hover {
+            background: var(--cream);
+            color: var(--brown);
+        }
+
+        /* Main content */
+        .main-content {
+            min-height: calc(100vh - 82px);
+            padding: 40px 20px 25px;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .page-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 14px;
+            border-radius: 50%;
+            background: var(--cream);
+            color: var(--brown);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+        }
+
+        .page-header h1 {
+            color: var(--brown);
+            font-size: 34px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .page-header p {
+            color: #777;
+            margin: 0;
+        }
+
+        /* Form card */
+        .form-container {
+            max-width: 720px;
+            margin: auto;
+            background: white;
+            padding: 35px;
+            border-radius: 18px;
+            box-shadow: 0 6px 25px #0000000d;
+        }
+
+        .form-label {
+            color: var(--brown);
+            font-weight: 600;
+            margin-bottom: 9px;
+        }
+
+        .input-group { margin-bottom: 22px; }
+
+        .input-group-text {
+            min-width: 47px;
+            justify-content: center;
+            background: #f8f1eb;
+            color: #754a2e;
+            border-color: #dedede;
+            font-size: 17px;
+        }
+
+        .form-control,
+        .form-select {
+            min-height: 49px;
+            border-color: #dedede;
+            font-size: 15px;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #c99a72;
+            box-shadow: 0 0 0 .2rem #c99a7226;
+        }
+
+        .btn-add {
+            width: 100%;
+            min-height: 50px;
+            background: var(--brown);
+            color: white;
+            border: 0;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: .25s;
+        }
+
+        .btn-add:hover {
+            background: var(--brown-hover);
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .back-btn {
+            display: block;
+            text-align: center;
+            margin-top: 17px;
+            color: #754a2e;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .back-btn:hover { color: var(--brown); }
+
+        .footer {
+            text-align: center;
+            color: #888;
+            font-size: 13px;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 991px) {
+            .navbar { padding: 12px 18px; }
+            .navbar-nav { gap: 0; }
+        }
+
+        @media (max-width: 576px) {
+            .main-content { padding: 30px 14px; }
+            .form-container { padding: 24px 18px; }
+            .page-header h1 { font-size: 29px; }
+        }
+    </style>
+</head>
+
+<body>
+
+{% include 'cafe_app/admin_nav.html' %}
+
+<main class="main-content">
+
+    <header class="page-header">
+        <div class="page-icon">
+            <i class="bi bi-box-seam-fill"></i>
+        </div>
+        <h1>Add Item</h1>
+        <p>Add a new item to your café inventory</p>
+    </header>
+
+    <section class="form-container">
+
+        {% if msg %}
+        <div class="alert alert-danger text-center">
+            <i class="bi bi-exclamation-circle me-2"></i>{{ msg }}
+        </div>
+        {% endif %}
+
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-success text-center">
+                {{ message }}
+            </div>
+            {% endfor %}
+        {% endif %}
+
+       <form method="POST" action="{% url 'add_items' %}">
+            {% csrf_token %}
+
+            <div class="row">
+
+                <div class="col-md-6">
+                    <label for="t1" class="form-label">Item Code</label>
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <i class="bi bi-upc-scan"></i>
+                        </span>
+                        <input type="text" id="t1" name="t1"
+                               class="form-control"
+                               placeholder="Enter item code"
+                               value="{{ item_code|default:'' }}" required>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="t2" class="form-label">Item Name</label>
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <i class="bi bi-box-seam"></i>
+                        </span>
+                        <input type="text" id="t2" name="t2"
+                               class="form-control"
+                               placeholder="Enter item name"
+                               value="{{ item_name|default:'' }}" required>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="qty" class="form-label">Quantity</label>
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <i class="bi bi-123"></i>
+                        </span>
+                        <input type="number" id="qty" name="qty"
+                               class="form-control"
+                               placeholder="Enter quantity"
+                               min="0" value="{{ quantity|default:'' }}"
+                               required>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="t4" class="form-label">Item Price (₹)</label>
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <i class="bi bi-currency-rupee"></i>
+                        </span>
+                        <input type="number" id="t4" name="t4"
+                               class="form-control"
+                               placeholder="Enter price"
+                               min="0" step="0.01"
+                               value="{{ price|default:'' }}" required>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <label for="t5" class="form-label">Category</label>
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <i class="bi bi-tags"></i>
+                        </span>
+                        <select id="t5" name="t5" class="form-select" required>
+                            <option value="">Select category</option>
+                            <option value="food"
+                                {% if category == 'food' %}selected{% endif %}>
+                                Food
+                            </option>
+                            <option value="alcohol"
+                                {% if category == 'alcohol' %}selected{% endif %}>
+                                Alcohol
+                            </option>
+                            <option value="soft_drink"
+                                {% if category == 'soft_drink' %}selected{% endif %}>
+                                Soft Drink
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+
+            <button type="submit" class="btn-add">
+                <i class="bi bi-plus-circle me-1"></i> Add Item
+            </button>
+
+            <a href="{% url 'admin_home' %}" class="back-btn">
+                <i class="bi bi-arrow-left"></i> Back to Dashboard
+            </a>
+
+        </form>
+    </section>
+
+    <footer class="footer">
+        © 2026 BCDC Café | Admin Panel
+    </footer>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

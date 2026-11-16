@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ title }} | BCDC Café Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <style>
+        body { margin: 0; background: #f5f6f8; color: #24201d; font-family: Arial, sans-serif; }
+        main { max-width: 1250px; margin: 32px auto; padding: 0 20px; }
+        .panel { background: white; border: 1px solid #e7e2dc; border-radius: 12px; padding: 26px; box-shadow: 0 8px 28px #24140d0d; }
+        .panel-head { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+        h1 { margin: 0 0 6px; font-size: 28px; } .muted { color: #746d66; margin: 0; }
+        .btn-cafe { background: #80552d; border-color: #80552d; color: white; }
+        .btn-cafe:hover { background: #603d20; color: white; }
+        .btn-edit { background: #80552d; border-color: #80552d; color: #fff; }
+        .btn-edit:hover { background: #603d20; border-color: #603d20; color: #fff; }
+        .btn-delete { background: #b42318; border-color: #b42318; color: #fff; }
+        .btn-delete:hover { background: #8f1c13; border-color: #8f1c13; color: #fff; }
+        th { white-space: nowrap; color: #644628 !important; }
+        @media (max-width: 1200px) { main { margin-top: 20px; } }
+    </style>
+</head>
+<body>
+{% include 'cafe_app/admin_nav.html' %}
+<main>
+    <section class="panel">
+        <div class="panel-head">
+            <div><h1>{{ title }}</h1><p class="muted">{{ description }}</p></div>
+            {% if action_url %}<a class="btn btn-cafe" href="{% url action_url %}"><i class="bi bi-plus-lg me-1"></i>{{ action_label }}</a>{% endif %}
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead><tr>{% for header in headers %}<th>{{ header }}</th>{% endfor %}{% if section %}<th>Actions</th>{% endif %}</tr></thead>
+                <tbody>
+                {% if section %}
+                    {% for record in records %}<tr>
+                        {% if section == 'tables' %}<td>{{ record.table_name }}</td><td>{{ record.table_type }}</td><td>{{ record.status }}</td>
+                        {% elif section == 'items' %}<td>{{ record.item_code }}</td><td>{{ record.item_name }}</td><td>{{ record.get_category_display }}</td><td>{{ record.quantity }}</td><td>{{ record.price }}</td>
+                        {% elif section == 'purchases' %}<td>{{ record.purchase_date|date:'d M Y' }}</td><td>{{ record.item_code }}</td><td>{{ record.item_name }}</td><td>{{ record.get_category_display }}</td><td>{{ record.quantity }}</td><td>{{ record.purchase_price }}</td><td>{{ record.selling_price }}</td>
+                        {% elif section == 'staff' %}<td>{{ record.staff_id }}</td><td>{{ record.staff_name }}</td><td>{{ record.mobile_number }}</td><td>{{ record.salary }}</td>
+                        {% elif section == 'expenses' %}<td>{{ record.date|date:'d M Y' }}</td><td>{{ record.reason }}</td><td>{{ record.staff_name|default:'—' }}</td><td>{{ record.amt }}</td>{% endif %}
+                        <td class="text-nowrap"><a class="btn btn-sm btn-edit" href="{% url 'manage_record' section record.pk 'edit' %}"><i class="bi bi-pencil"></i> Edit</a> <a class="btn btn-sm btn-delete" href="{% url 'manage_record' section record.pk 'delete' %}"><i class="bi bi-trash"></i> Delete</a></td>
+                    </tr>{% empty %}<tr><td colspan="{{ headers|length|add:1 }}" class="text-center text-secondary py-4">{{ empty_message }}</td></tr>{% endfor %}
+                {% else %}
+                    {% for row in rows %}<tr>{% for cell in row %}<td>{{ cell }}</td>{% endfor %}</tr>
+                    {% empty %}<tr><td colspan="{{ headers|length }}" class="text-center text-secondary py-4">{{ empty_message }}</td></tr>{% endfor %}
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+</body>
+</html>

@@ -1,0 +1,9 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Edit {{ section }} | BCDC Café</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>body{background:#f5f6f8;color:#24201d;font-family:Arial,sans-serif}main{max-width:760px;margin:36px auto;padding:0 18px}.panel{background:white;border:1px solid #e7e2dc;border-radius:12px;padding:28px;box-shadow:0 8px 28px #24140d0d}h1{font-size:28px;margin-bottom:22px}.btn-cafe{background:#80552d;border-color:#80552d;color:white}</style></head>
+<body>{% include 'cafe_app/admin_nav.html' %}<main><section class="panel"><h1>Edit {{ section|title }}</h1>
+{% if form.non_field_errors %}<div class="alert alert-danger">{{ form.non_field_errors }}</div>{% endif %}
+<form method="post">{% csrf_token %}{% for field in form %}<div class="mb-3"><label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field.as_widget|safe }}{% for error in field.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}</div>{% endfor %}
+<button class="btn btn-cafe" type="submit">Save changes</button> <a class="btn btn-outline-secondary" href="{% url list_name %}">Cancel</a></form></section></main></body></html>

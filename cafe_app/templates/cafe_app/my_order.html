@@ -1,0 +1,399 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Orders | BCDC Café</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: #f8f5f0;
+            color: #39251c;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, #2b1710, #68432b);
+            color: white;
+            padding: 40px 20px;
+        }
+
+        .page-header h1 {
+            font-size: 32px;
+            font-weight: 800;
+        }
+
+        .page-header p {
+            color: #ead8c5;
+            margin-bottom: 0;
+        }
+
+        .order-summary {
+            border: none;
+            border-radius: 16px;
+            background: white;
+            box-shadow: 0 5px 20px rgba(65, 39, 23, 0.07);
+            padding: 22px;
+            height: 100%;
+        }
+
+        .summary-icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 12px;
+            font-size: 22px;
+            background: #fff0d8;
+            color: #8a5425;
+        }
+
+        .summary-label {
+            color: #817268;
+            font-size: 13px;
+            margin-top: 14px;
+        }
+
+        .summary-value {
+            font-size: 25px;
+            font-weight: 800;
+            margin: 2px 0 0;
+        }
+
+        .orders-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(65, 39, 23, 0.07);
+            overflow: hidden;
+        }
+
+        .orders-heading {
+            padding: 22px 25px;
+            border-bottom: 1px solid #eee5dc;
+        }
+
+        .orders-heading h4 {
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+
+        .orders-heading p {
+            color: #817268;
+            font-size: 13px;
+            margin-bottom: 0;
+        }
+
+        .table-responsive {
+            padding: 0 20px 20px;
+        }
+
+        .table {
+            vertical-align: middle;
+            min-width: 750px;
+        }
+
+        .table thead th {
+            background: #fcf8f3;
+            color: #70513b;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 17px 12px;
+            border-bottom: 1px solid #eee5dc;
+        }
+
+        .table tbody td {
+            padding: 18px 12px;
+            font-size: 14px;
+            border-bottom: 1px solid #f1ebe5;
+        }
+
+        .order-id {
+            font-weight: 800;
+            color: #75451f;
+        }
+
+        .amount {
+            font-weight: 800;
+            color: #3d291e;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 7px 12px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .status-delivered {
+            background: #e2f7e9;
+            color: #187640;
+        }
+
+        .status-pending {
+            background: #fff0cf;
+            color: #986000;
+        }
+
+        .status-cancelled {
+            background: #fde5e5;
+            color: #b52c2c;
+        }
+
+        .status-preparing {
+            background: #e5edff;
+            color: #2856a5;
+        }
+
+        .btn-details {
+            border: 1px solid #765035;
+            color: #765035;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 7px 12px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-details:hover {
+            color: white;
+            background: #765035;
+        }
+
+        .empty-orders {
+            text-align: center;
+            padding: 55px 20px;
+        }
+
+        .empty-orders i {
+            font-size: 55px;
+            color: #c7ad96;
+        }
+
+        .empty-orders h5 {
+            margin-top: 15px;
+            font-weight: 800;
+        }
+
+        .btn-menu {
+            background: #68432b;
+            color: white;
+            border: none;
+            border-radius: 9px;
+            padding: 11px 22px;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .btn-menu:hover {
+            color: white;
+            background: #422719;
+        }
+
+        .page-footer {
+            text-align: center;
+            color: #89776a;
+            font-size: 13px;
+            padding: 25px 10px;
+        }
+
+        @media (max-width: 576px) {
+            .page-header h1 {
+                font-size: 26px;
+            }
+
+            .page-header {
+                padding: 30px 15px;
+            }
+
+            .orders-heading {
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- User Navbar -->
+    {% include 'cafe_app/user_nav.html' %}
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>
+                <i class="bi bi-bag-check-fill me-2"></i>
+                My Orders
+            </h1>
+            <p>Track your orders and revisit your BCDC Café favourites.</p>
+        </div>
+    </section>
+
+    <main class="container py-5">
+
+        <!-- Order Summary -->
+        <div class="row g-4 mb-4">
+
+            <div class="col-md-4">
+                <div class="order-summary">
+                    <div class="summary-icon">
+                        <i class="bi bi-receipt"></i>
+                    </div>
+                    <p class="summary-label">Total Orders</p>
+                    <h3 class="summary-value">{{ total_orders|default:0 }}</h3>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="order-summary">
+                    <div class="summary-icon">
+                        <i class="bi bi-clock-history"></i>
+                    </div>
+                    <p class="summary-label">Active Orders</p>
+                    <h3 class="summary-value">{{ active_orders|default:0 }}</h3>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="order-summary">
+                    <div class="summary-icon">
+                        <i class="bi bi-currency-rupee"></i>
+                    </div>
+                    <p class="summary-label">Total Amount Spent</p>
+                    <h3 class="summary-value">
+                        ₹{{ total_spent|default:0|floatformat:2 }}
+                    </h3>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Orders Table -->
+        <div class="orders-card">
+
+            <div class="orders-heading">
+                <h4>Order History</h4>
+                <p>View your previous and current orders.</p>
+            </div>
+
+            {% if orders %}
+
+            <div class="table-responsive">
+                <table class="table mb-0">
+
+                    <thead>
+                        <tr>
+                            <th>Bill Number</th>
+                            <th>Order Date</th>
+                            <th>Items</th>
+                            <th>Total Amount</th>
+                            <th>Payment</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for order in orders %}
+                        <tr>
+
+                            <td class="order-id">
+                                #{{ order.bill_no }}
+                            </td>
+
+                            <td>
+                                {{ order.created_at|date:"d M Y" }}
+                            </td>
+
+                            <td>
+                                {{ order.items_summary|default:"Food order" }}
+                            </td>
+
+                            <td class="amount">
+                                ₹{{ order.total_amount|floatformat:2 }}
+                            </td>
+
+                            <td>
+                                {{ order.payment_method|default:"Not specified" }}
+                            </td>
+
+                            <td>
+                                {% if order.status == "Delivered" %}
+                                    <span class="status status-delivered">
+                                        Delivered
+                                    </span>
+                                {% elif order.status == "Cancelled" %}
+                                    <span class="status status-cancelled">
+                                        Cancelled
+                                    </span>
+                                {% elif order.status == "Preparing" %}
+                                    <span class="status status-preparing">
+                                        Preparing
+                                    </span>
+                                {% elif order.status == "Settled" %}
+                                    <span class="status status-delivered">
+                                        Settled
+                                    </span>
+                                {% else %}
+                                    <span class="status status-pending">
+                                        {{ order.status|default:"Pending" }}
+                                    </span>
+                                {% endif %}
+                            </td>
+
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+
+                </table>
+            </div>
+
+            {% else %}
+
+            <div class="empty-orders">
+                <i class="bi bi-bag-x"></i>
+                <h5>No Orders Yet!</h5>
+                <p class="text-secondary">
+                    You haven't placed any orders. Explore our menu
+                    and discover something delicious.
+                </p>
+
+                <a href="{% url 'user_menu' %}" class="btn-menu">
+                    <i class="bi bi-cup-straw me-2"></i>
+                    Explore Menu
+                </a>
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </main>
+
+    <footer class="page-footer">
+        © 2026 BCDC Café. More Than Coffee, It's An Experience.
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
