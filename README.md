@@ -45,12 +45,12 @@ The following environment variables are available:
 | Variable | Purpose | Local behavior |
 | --- | --- | --- |
 | `DJANGO_SECRET_KEY` | Django signing key | Uses a development fallback if unset; set a private, strong value for deployment |
-| `DJANGO_DEBUG` | Enables Django debug mode | Defaults to `true` |
+| `DJANGO_DEBUG` | Enables Django debug mode | Defaults to `true` locally and `false` on Render |
 | `DJANGO_ALLOWED_HOSTS` | Comma-separated host names accepted by Django | Defaults to `localhost,127.0.0.1,testserver` |
 | `DATABASE_URL` | PostgreSQL connection URL | If unset, uses `db.sqlite3` in the project root |
 | `RENDER_EXTERNAL_HOSTNAME` | Render service hostname | Adds the hostname to allowed hosts and trusted HTTPS origins when set |
 
-When `DJANGO_DEBUG=false`, provide `DJANGO_SECRET_KEY` and `DJANGO_ALLOWED_HOSTS`. Secure cookies, HTTPS redirects, and HSTS are enabled in this mode, so the application should be served over HTTPS. If deploying to Render, configure a persistent PostgreSQL database and set `DATABASE_URL`, set `DJANGO_DEBUG=false`, and provide a strong `DJANGO_SECRET_KEY`. Render supplies `RENDER_EXTERNAL_HOSTNAME` for its web service.
+When `DJANGO_DEBUG=false`, provide `DJANGO_SECRET_KEY` and either `DJANGO_ALLOWED_HOSTS` or `RENDER_EXTERNAL_HOSTNAME`. Secure cookies, HTTPS redirects, and HSTS are enabled in this mode, so the application should be served over HTTPS. If deploying to Render, configure a persistent PostgreSQL database and set `DATABASE_URL`, and provide a strong `DJANGO_SECRET_KEY`. Render supplies `RENDER_EXTERNAL_HOSTNAME` and debug mode defaults off on Render.
 
 ## Deploy on Render
 
@@ -58,7 +58,7 @@ Create a Render web service connected to this repository and configure:
 
 - **Build command:** `pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate`
 - **Start command:** `gunicorn cafe.wsgi:application`
-- **Environment:** `DJANGO_DEBUG=false`, a generated `DJANGO_SECRET_KEY`, and `DATABASE_URL` from a persistent PostgreSQL database
+- **Environment:** a generated `DJANGO_SECRET_KEY` and `DATABASE_URL` from a persistent PostgreSQL database. Render automatically supplies `RENDER_EXTERNAL_HOSTNAME` and the app defaults to production mode there.
 
 Render sets `RENDER_EXTERNAL_HOSTNAME` for the service. If your deployment host does not provide it, add the hostname to `DJANGO_ALLOWED_HOSTS`.
 

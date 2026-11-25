@@ -28,7 +28,8 @@ SECRET_KEY = os.environ.get(
 )
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DJANGO_DEBUG', 'true').strip().lower() in {
+DEFAULT_DEBUG = 'false' if os.environ.get('RENDER_EXTERNAL_HOSTNAME') else 'true'
+DEBUG = os.environ.get('DJANGO_DEBUG', DEFAULT_DEBUG).strip().lower() in {
     '1', 'true', 'yes', 'on'
 }
 
@@ -44,8 +45,15 @@ if os.environ.get('RENDER_EXTERNAL_HOSTNAME'):
 
 if not DEBUG and not os.environ.get('DJANGO_SECRET_KEY', '').strip():
     raise RuntimeError('Set DJANGO_SECRET_KEY before running with DJANGO_DEBUG=false.')
-if not DEBUG and not os.environ.get('DJANGO_ALLOWED_HOSTS', '').strip():
-    raise RuntimeError('Set DJANGO_ALLOWED_HOSTS before running with DJANGO_DEBUG=false.')
+if (
+    not DEBUG
+    and not os.environ.get('DJANGO_ALLOWED_HOSTS', '').strip()
+    and not os.environ.get('RENDER_EXTERNAL_HOSTNAME', '').strip()
+):
+    raise RuntimeError(
+        'Set DJANGO_ALLOWED_HOSTS or configure the Render external hostname '
+        'before running with DJANGO_DEBUG=false.'
+    )
 
 
 # Application definition
