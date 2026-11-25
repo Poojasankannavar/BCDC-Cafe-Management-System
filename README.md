@@ -2,6 +2,12 @@
 
 BCDC Cafe Management System is a Django web application for day-to-day cafe operations. Customers can browse the menu, create an account, and place orders. Cafe administrators can manage tables, menu inventory, purchases, staff, expenses, and bills from the admin area.
 
+## Live demo
+
+[https://bcdc-cafe-management-system.onrender.com](https://bcdc-cafe-management-system.onrender.com)
+
+## Features
+
 ## Features
 
 - Customer registration, login, profile, and order history
